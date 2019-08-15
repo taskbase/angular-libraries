@@ -1,0 +1,10 @@
+@import '../keyboard.variables';
+
+:host {
+  display: flex;
+  background: $keyboard-background;
+  justify-content: center;
+  .keyboard-row {
+    display: flex;
+  }
+}

@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <div *ngFor="let row of selectedTab"
+       class="keyboard-row">
+    <div *ngFor="let btn of row">
+      <ng-container [ngSwitch]="btn">
+        <ng-container *ngSwitchCase="keyboardCommandButton.SHIFT">
+          <tb-icon-button [activated]="shiftPressed"
+                          (buttonClick)="pressShift()"
+                          [btn]="btn">
+          </tb-icon-button>
+        </ng-container>
+        <ng-container *ngSwitchCase="keyboardCommandButton.BACKSPACE">
+          <tb-icon-button [btn]="btn">
+          </tb-icon-button>
+        </ng-container>
+        <ng-container *ngSwitchCase="keyboardCommandButton.ONE_TWO_THREE">
+          <tb-icon-button [btn]="btn">
+          </tb-icon-button>
+        </ng-container>
+        <ng-container *ngSwitchCase="keyboardCommandButton.SPACEBAR">
+          <tb-spacebar-button></tb-spacebar-button>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <tb-single-char-button [btn]="btn"
+                                 (buttonClick)="onKeyboardButtonClick($event)">
+          </tb-single-char-button>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

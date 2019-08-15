@@ -1,0 +1,10 @@
+$button-width: 25px;
+$button-height: 35px;
+$button-margin-left-right: 2px;
+
+$button-background-regular: #FFFFFF;
+$button-background-icon: #B1B1B1;
+
+@function multiCellButtonWidth($num-cells) {
+  @return $num-cells * $button-width + (2 * $num-cells - 2) * $button-margin-left-right;
+}

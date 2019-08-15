@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "angular-keyboard": [
+        "dist/angular-keyboard"
+      ],
+      "angular-keyboard/*": [
+        "dist/angular-keyboard/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

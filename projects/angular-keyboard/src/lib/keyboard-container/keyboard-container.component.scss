@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.page-content {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  overflow: auto;
+}
+
+
+.rest {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  overflow: auto;
+}
+
+.keyboard {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+}

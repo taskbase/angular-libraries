@@ -119,6 +119,41 @@
           }
         }
       }
+    },
+    "angular-keyboard": {
+      "projectType": "library",
+      "root": "projects/angular-keyboard",
+      "sourceRoot": "projects/angular-keyboard/src",
+      "prefix": "tb",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/angular-keyboard/tsconfig.lib.json",
+            "project": "projects/angular-keyboard/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-keyboard/src/test.ts",
+            "tsConfig": "projects/angular-keyboard/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-keyboard/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/angular-keyboard/tsconfig.lib.json",
+              "projects/angular-keyboard/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "angular-keyboard-project"
 }

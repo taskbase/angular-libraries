@@ -1,0 +1,14 @@
+@import '../keyboard-button.vars';
+
+.icon-button {
+  width: multiCellButtonWidth(2);
+  background: $button-background-icon;
+  font-size: 20px;
+  &.activated {
+    background: $button-background-regular;
+  }
+}
+
+.icon-button-123 {
+  font-size: 60%;
+}

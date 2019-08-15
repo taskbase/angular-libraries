@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {AngularKeyboardService} from '../../projects/angular-keyboard/src/lib/angular-keyboard.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-keyboard-project';
+
+  input$ = this.keyboardService.input$;
+
+  constructor(
+    private keyboardService: AngularKeyboardService
+  ) {
+  }
+
 }
