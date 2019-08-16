@@ -156,30 +156,56 @@ export class FakeInputComponent implements OnInit {
     }
   }
 
+
   moveCursorUp() {
-    // ok this is tricky...
-    // implementation: store cursor distance from left of the input box,
-    // then travel up until you find another element that is more to the right, then find an element that is further to the left... :)
-    const elementRightOfCursor = this.elementRightOfCursor();
-    if (elementRightOfCursor instanceof HTMLElement) {
-    }
+    const selected = this.charElements.toArray()[this.cursor.index].nativeElement;
+    let foundIndex: number;
+    let distance: number;
+    this.charElements.forEach((charElt, idx) => {
+      const d = getDistanceBetweenElements(selected, charElt.nativeElement);
+      if (foundIndex != null) {
+        if (d < distance) {
+          distance = d;
+          foundIndex = idx;
+        }
+      } else {
+        distance = d;
+        foundIndex = idx;
+      }
+    });
+    this.cursor = {
+      index: foundIndex,
+      side: Side.LEFT
+    };
   }
 
   moveCursorLeft() {
-    if (this.cursorPos > 0) {
+    if (this.cursor.side === Side.RIGHT) {
+      this.cursor.side = Side.LEFT;
+    } else {
+      if (this.cursorPos > 0) {
+        this.cursor.index = this.cursor.index - 1;
+      } else {
+        // nothing to do
+      }
+    }
+  }
 
+  moveCursorRight() {
+    if (this.cursor.side === Side.LEFT) {
+      this.cursor.side = Side.RIGHT;
+    } else {
+      if (this.cursorPos < this.charElements.length) {
+        this.cursor.index = this.cursor.index + 1;
+      } else {
+        // nothing to do
+      }
     }
   }
 
   elementRightOfCursor() {
     const eltRight = this.charElements.toArray()[this.cursorPos];
     return eltRight ? eltRight.nativeElement : null;
-  }
-
-  moveCursorRight() {
-    if (this.cursorPos < this.chars.length) {
-      // TODO;
-    }
   }
 
   onClickCharLeft(char: string, index: number) {
@@ -240,6 +266,7 @@ export class FakeInputComponent implements OnInit {
     return closest;
   }
 
+
   clickedInsideHorizontal(e, elt) {
     const bound = elt.getBoundingClientRect();
     return e.clientX > bound.left && e.clientX < elt.right;
@@ -274,4 +301,23 @@ export class FakeInputComponent implements OnInit {
     }
   }
 
+}
+
+
+// helpers for stuff
+function getPositionAtCenter(element) {
+  const {top, left, width, height} = element.getBoundingClientRect();
+  return {
+    x: left + width / 2,
+    y: top + height / 2
+  };
+}
+
+function getDistanceBetweenElements(a: HTMLElement, b: HTMLElement) {
+  const aPosition = getPositionAtCenter(a);
+  const bPosition = getPositionAtCenter(b);
+  return Math.sqrt(
+    Math.pow(aPosition.x - bPosition.x, 2) +
+    Math.pow(aPosition.y - bPosition.y, 2)
+  );
 }
