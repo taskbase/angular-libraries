@@ -1,0 +1,14 @@
+.wrapper {
+
+  // padding: if you want padding, you need some more logic to handle clicks onto the padding...
+
+  font-size: 20px;
+  border: 1px solid black;
+  margin-bottom: 5px;
+  display: block;
+  line-height: 1;
+
+  white-space: pre-wrap; // to preserve multiple sequential whitespaces
+  text-align: left;
+  cursor: text;
+}

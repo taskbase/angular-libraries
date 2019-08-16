@@ -1,0 +1,23 @@
+:host {
+  position: relative;
+  .cursor {
+    width: 2px;
+    height: 20px;
+    bottom: -2px;
+    left: -1px;
+    background: black;
+    position: absolute;
+    animation-name: blink-animation;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+
+  }
+}
+
+@keyframes blink-animation {
+  0%   {opacity: 1;}
+  // 25%  {background-color:yellow; left:200px; top:0px;}
+  50%  {opacity: 0;}
+  // 75%  {background-color:green; left:0px; top:200px;}
+  100% {opacity: 1}
+}

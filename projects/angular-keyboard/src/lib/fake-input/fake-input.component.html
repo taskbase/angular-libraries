@@ -1,0 +1,9 @@
+<div class="wrapper" #wrapper (click)="onClickInputField($event, wrapper)">
+  <ng-container *ngFor="let char of chars; let idx = index">
+<!--    <app-cursor *ngIf="displayCursor(idx)"></app-cursor>-->
+    <app-fake-char #fakechar (clickLeft)="onClickCharLeft(char, idx)"
+                  [cursor]="getCursor(idx)"
+                  (clickRight)="onClickCharRight(char, idx)">{{char.char}}</app-fake-char>
+  </ng-container>
+<!--  <app-cursor *ngIf="displayCursor(chars.length)"></app-cursor>-->
+</div>

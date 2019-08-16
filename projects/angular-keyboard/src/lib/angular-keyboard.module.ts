@@ -6,6 +6,9 @@ import {FormsModule} from '@angular/forms';
 import {SingleCharButtonComponent} from './buttons/single-char-button/single-char-button.component';
 import {SpacebarButtonComponent} from './buttons/spacebar-button/spacebar-button.component';
 import {IconButtonComponent} from './buttons/icon-button/icon-button.component';
+import {FakeInputComponent} from './fake-input/fake-input.component';
+import {CursorComponent} from './fake-input/cursor/cursor.component';
+import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
 
 
 @NgModule({
@@ -18,10 +21,16 @@ import {IconButtonComponent} from './buttons/icon-button/icon-button.component';
     KeyboardComponent,
     SingleCharButtonComponent,
     IconButtonComponent,
-    SpacebarButtonComponent
+    SpacebarButtonComponent,
+
+    // Input Stuff
+    FakeInputComponent,
+    CursorComponent,
+    FakeCharComponent
   ],
   exports: [
-    KeyboardContainerComponent
+    KeyboardContainerComponent,
+    FakeInputComponent
   ]
 })
 export class AngularKeyboardModule {
