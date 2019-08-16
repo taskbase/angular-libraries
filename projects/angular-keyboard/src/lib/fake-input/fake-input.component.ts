@@ -158,25 +158,7 @@ export class FakeInputComponent implements OnInit {
 
 
   moveCursorUp() {
-    const selected = this.charElements.toArray()[this.cursor.index].nativeElement;
-    let foundIndex: number;
-    let distance: number;
-    this.charElements.forEach((charElt, idx) => {
-      const d = getDistanceBetweenElements(selected, charElt.nativeElement);
-      if (foundIndex != null) {
-        if (d < distance) {
-          distance = d;
-          foundIndex = idx;
-        }
-      } else {
-        distance = d;
-        foundIndex = idx;
-      }
-    });
-    this.cursor = {
-      index: foundIndex,
-      side: Side.LEFT
-    };
+    // TODO
   }
 
   moveCursorLeft() {
@@ -301,23 +283,4 @@ export class FakeInputComponent implements OnInit {
     }
   }
 
-}
-
-
-// helpers for stuff
-function getPositionAtCenter(element) {
-  const {top, left, width, height} = element.getBoundingClientRect();
-  return {
-    x: left + width / 2,
-    y: top + height / 2
-  };
-}
-
-function getDistanceBetweenElements(a: HTMLElement, b: HTMLElement) {
-  const aPosition = getPositionAtCenter(a);
-  const bPosition = getPositionAtCenter(b);
-  return Math.sqrt(
-    Math.pow(aPosition.x - bPosition.x, 2) +
-    Math.pow(aPosition.y - bPosition.y, 2)
-  );
 }
