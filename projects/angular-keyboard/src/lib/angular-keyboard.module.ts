@@ -7,7 +7,6 @@ import {SingleCharButtonComponent} from './buttons/single-char-button/single-cha
 import {SpacebarButtonComponent} from './buttons/spacebar-button/spacebar-button.component';
 import {IconButtonComponent} from './buttons/icon-button/icon-button.component';
 import {FakeInputComponent} from './fake-input/fake-input.component';
-import {CursorComponent} from './fake-input/cursor/cursor.component';
 import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
 
 
@@ -25,7 +24,6 @@ import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
 
     // Input Stuff
     FakeInputComponent,
-    CursorComponent,
     FakeCharComponent
   ],
   exports: [
