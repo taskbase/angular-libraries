@@ -52,7 +52,41 @@ export class FakeInputComponent implements OnInit {
 
   constructor(
     private keyInputService: KeyInputService
-  ) { }
+  ) {
+  }
+
+  ngOnInit() {
+    this.chars = 'Some textSome textSome textSome textSome textSome textSome textSome textSome textSome textSome textSome textSome'
+      .split('').map(char => {
+        return {
+          char
+        };
+      });
+    this.keyInputService.input$.subscribe((next: string) => {
+      const handledEvents = {
+        [KeyboardCommandButton.BACKSPACE]: () => {
+          if (this.cursorPos > 0) {
+            this.deleteCharLeftAndAdjustCursor();
+            console.log(this.cursor);
+          }
+        },
+        [KeyboardCommandButton.SPACEBAR]: () => this.insertChar(' '),
+        [KeyboardCommandButton.ARROW_LEFT]: () => this.moveCursorLeft(),
+        [KeyboardCommandButton.ARROW_RIGHT]: () => this.moveCursorRight(),
+        [KeyboardCommandButton.ARROW_UP]: () => this.moveCursorUp(),
+        [KeyboardCommandButton.ENTER]: () => this.insertChar('\n')
+      };
+      const action = handledEvents[next];
+      if (action instanceof Function) {
+        action();
+      } else {
+        const isChar = next.length === 1; // could also be unhandlet command like shift, so we need to check here.
+        if (next.length === 1) {
+          this.insertChar(next);
+        }
+      }
+    });
+  }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(e: KeyboardEvent) {
@@ -61,7 +95,6 @@ export class FakeInputComponent implements OnInit {
       this.keyInputService.input$.next(e.key);
     }
   }
-
 
   insertChar(char: string) {
     this.chars = [
@@ -75,51 +108,28 @@ export class FakeInputComponent implements OnInit {
     };
   }
 
-  deleteCharLeft() {
-    this.chars = [
-      ...this.chars.slice(0, this.cursorPos - 1),
-      ...this.chars.slice(this.cursorPos, this.chars.length)
-    ];
-  }
-
-
-  ngOnInit() {
-    this.chars = 'Some textSome textSome textSome textSome textSome textSome textSome textSome textSome textSome textSome textSome'
-      .split('').map(char => {
-      return {
-        char
-      };
-    });
-    this.keyInputService.input$.subscribe((next: string) => {
-      console.log('next:', next);
-      if (this.cursorPos != null) {
-        const handledEvents = {
-          [KeyboardCommandButton.BACKSPACE]: () => {
-            if (this.cursorPos > 0) {
-              this.deleteCharLeft();
-              this.cursor = {
-                index: this.cursorPos,
-                side: Side.RIGHT
-              };
-            }
-          },
-          [KeyboardCommandButton.SPACEBAR]: () => this.insertChar(' '),
-          [KeyboardCommandButton.ARROW_LEFT]: () => this.moveCursorLeft(),
-          [KeyboardCommandButton.ARROW_RIGHT]: () => this.moveCursorRight(),
-          [KeyboardCommandButton.ARROW_UP]: () => this.moveCursorUp(),
-          [KeyboardCommandButton.ENTER]: () => this.insertChar('\n')
+  deleteCharLeftAndAdjustCursor() {
+    if (this.cursorPos === 0) {
+      // cannot delete more...
+    } else {
+      // actually delete the char
+      this.chars = [
+        ...this.chars.slice(0, this.cursorPos - 1),
+        ...this.chars.slice(this.cursorPos, this.chars.length)
+      ];
+      // adjust the cursor
+      if (this.cursorPos === 1) {
+        this.cursor = {
+          index: 0,
+          side: Side.LEFT
         };
-        const action = handledEvents[next];
-        if (action instanceof Function) {
-          action();
-        } else {
-          const isChar = next.length === 1; // could also be unhandlet command like shift, so we need to check here.
-          if (next.length === 1) {
-            this.insertChar(next);
-          }
-        }
+      } else {
+        this.cursor = {
+          index: this.cursorPos - 2,
+          side: Side.RIGHT
+        };
       }
-    });
+    }
   }
 
   moveCursorUp() {
@@ -134,7 +144,7 @@ export class FakeInputComponent implements OnInit {
 
   moveCursorLeft() {
     if (this.cursorPos > 0) {
-      // TODO;
+
     }
   }
 
@@ -164,7 +174,7 @@ export class FakeInputComponent implements OnInit {
   }
 
   displayCursor(idx: number) {
-   return this.cursorPos === idx;
+    return this.cursorPos === idx;
   }
 
   onClickInputField(e) {
@@ -194,7 +204,7 @@ export class FakeInputComponent implements OnInit {
       index: charClustersByRow.slice(0, rowNumber + 1).map(row => row.length).reduce((a, b) => a + b, 0) - 1,
       side: Side.RIGHT
     };
-    console.log(charClustersByRow);
+
   }
 
   getCursor(idx: number) {
@@ -204,5 +214,6 @@ export class FakeInputComponent implements OnInit {
       return CharCursor.NONE;
     }
   }
+
 
 }

@@ -1,8 +1,10 @@
-<div class="wrapper" #wrapper (click)="onClickInputField($event, wrapper)">
+<div class="wrapper"
+     #wrapper
+     (click)="onClickInputField($event, wrapper)">
   <ng-container *ngFor="let char of chars; let idx = index">
     <app-fake-char #fakechar
                    (clickLeft)="onClickCharLeft(char, idx)"
                    (clickRight)="onClickCharRight(char, idx)"
-                  [cursor]="getCursor(idx)">{{char.char}}</app-fake-char>
+                   [cursor]="getCursor(idx)">{{char.char}}</app-fake-char>
   </ng-container>
 </div>

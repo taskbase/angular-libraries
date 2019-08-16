@@ -11,4 +11,6 @@
   white-space: pre-wrap; // to preserve multiple sequential whitespaces
   text-align: left;
   cursor: text;
+
+  user-select: none;
 }
