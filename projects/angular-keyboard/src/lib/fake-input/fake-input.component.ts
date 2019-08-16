@@ -202,46 +202,13 @@ export class FakeInputComponent implements OnInit {
     };
   }
 
-  displayCursor(idx: number) {
-    return this.cursorPos === idx;
-  }
-
-  findClosestHorizontalCharHelper(chars: HTMLElement[], e) {
-    let closest = {
-      charElt: null,
-      distance: 10000000, // TODO: find something better
-      idx: -1
-    };
-    chars.forEach((charElt, idx) => {
-      const charX = charElt.getBoundingClientRect().left;
-      const distance = Math.abs(e.clientX - charX);
-      if (distance < closest.distance) {
-        closest = {
-          distance,
-          charElt,
-          idx
-        };
-      }
-    });
-    return closest;
-  }
-
   findClosestHorizontalChar(e) {
-    // const charRows = this.charRows;
-    // const clickOnBorderOrPadding = this.isClickOnBorderOrPadding(e);
-    // let closest;
-    // if (clickOnBorderOrPadding.top) {
-    //   closest = this.findClosestHorizontalCharHelper(charRows[0], e); // TODO: case of 0 rows...
-    // } else if (clickOnBorderOrPadding.bottom) {
-    //
-    // } else {
-    //   // should be within confinements if you know what I mean
-    // }
-
     let closest: {
       idx: number,
       distanceX: number;
       distanceY: number;
+      elt: HTMLElement;
+      isLeft: boolean;
     } | null = null;
     this.charElements.forEach((charElt, idx) => {
       // console.log(charElt.nativeElement.innerText, JSON.stringify(charElt.nativeElement.getBoundingClientRect()));
@@ -254,11 +221,14 @@ export class FakeInputComponent implements OnInit {
         Math.abs(e.clientY - nativeElement.getBoundingClientRect().top),
         Math.abs(e.clientY - nativeElement.getBoundingClientRect().bottom)
       );
+      const isLeft = e.clientX < nativeElement.getBoundingClientRect().left;
       const updateClosest = () => {
         closest = {
           distanceX,
           distanceY,
-          idx
+          idx,
+          elt: nativeElement,
+          isLeft
         };
       };
       if (closest != null) {
@@ -287,69 +257,20 @@ export class FakeInputComponent implements OnInit {
     return e.clientY > bound.top && e.clientY < bound.bottom;
   }
 
-  get charRows() {
-    const charClustersByRow: HTMLElement[][] = [];
-    let lastSeen: HTMLElement | null = null;
-    let currentIndex = 0;
-    this.charElements.toArray().forEach(elt => {
-      const nativeElement = elt.nativeElement as HTMLElement;
-      if (lastSeen != null) {
-        const l = lastSeen as HTMLElement;
-        if (l.getBoundingClientRect().top === nativeElement.getBoundingClientRect().top) {
-          charClustersByRow[currentIndex].push(nativeElement);
-        } else {
-          currentIndex = currentIndex + 1;
-          charClustersByRow.push([nativeElement]);
-        }
-      } else {
-        charClustersByRow.push([nativeElement]);
-      }
-      lastSeen = nativeElement;
-    });
-    return charClustersByRow;
-  }
-
   onClickInputField(e) {
-
     const closest = this.findClosestHorizontalChar(e);
-
-    // const clickOnBorderOrPadding = this.isClickOnBorderOrPadding(e);
-    // if (clickOnBorderOrPadding.top && clickOnBorderOrPadding.left) {
-    //   this.cursor = {
-    //     index: 0,
-    //     side: Side.LEFT
-    //   };
-    // } else if (clickOnBorderOrPadding.bottom && clickOnBorderOrPadding.right) {
-    //   this.cursor = {
-    //     index: this.chars.length - 1,
-    //     side: Side.RIGHT
-    //   };
-    // }
-
-    // const clickTarget = e.target;
-    // const yCoordInClickTarget = e.clientY - clickTarget.getBoundingClientRect().top;
-    // const rowNumber = Math.floor(yCoordInClickTarget / this.keyInputService.charHeight);
-    //
-    //
-
-    // this.cursor = {
-    //   index: charClustersByRow.slice(0, rowNumber + 1).map(row => row.length).reduce((a, b) => a + b, 0) - 1,
-    //   side: Side.RIGHT
-    // };
+    if (closest.isLeft) {
+      this.cursor = {
+        index: closest.idx,
+        side: Side.LEFT
+      };
+    } else {
+      this.cursor = {
+        index: closest.idx,
+        side: Side.RIGHT
+      };
+    }
   }
-
-  isClickOnBorderOrPadding(e) {
-    const boundingRect = this.wrapper.nativeElement.getBoundingClientRect();
-    const borderPlusPadding = this.styles.borderWidth + this.styles.padding;
-    return {
-      top: e.clientY - boundingRect.top < borderPlusPadding,
-      left: e.clientX - boundingRect.left < borderPlusPadding,
-      bottom: boundingRect.bottom - e.clientY < borderPlusPadding,
-      right: boundingRect.right - e.clientX < borderPlusPadding,
-    };
-  }
-
-
 
   getCursor(idx: number) {
     if (this.cursor != null && this.cursor.index === idx) {
@@ -358,6 +279,5 @@ export class FakeInputComponent implements OnInit {
       return CharCursor.NONE;
     }
   }
-
 
 }
