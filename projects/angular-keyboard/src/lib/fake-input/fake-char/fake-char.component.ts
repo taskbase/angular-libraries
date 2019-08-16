@@ -37,7 +37,7 @@ export class FakeCharComponent implements OnInit {
   }
 
   get isCursorRight() {
-    return this.cursor === CharCursor.LEFT;
+    return this.cursor === CharCursor.RIGHT;
   }
 
 }
