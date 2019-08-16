@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AngularKeyboardService} from '../angular-keyboard.service';
 
 @Component({
   selector: 'tb-keyboard-container',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class KeyboardContainerComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('keyboard', {static: true}) keyboardContainer: ElementRef;
+
+  constructor(
+    private angularKeyboardService: AngularKeyboardService
+  ) { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.angularKeyboardService.keyboardContainer = this.keyboardContainer;
   }
 
 }

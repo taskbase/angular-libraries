@@ -6,6 +6,10 @@ import {Subject} from 'rxjs';
 })
 export class AngularKeyboardService {
 
+  keyboardContainer: HTMLElement | null = null;
+
+  cursor$ = new Subject();
+
   input$ = new Subject();
 
   constructor() {

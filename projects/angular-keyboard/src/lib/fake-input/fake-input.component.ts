@@ -1,9 +1,8 @@
 import {Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 
-import {KeyInputService} from './key-input.service';
-
 import {KeyboardCommandButton} from '../../../../../../../../Downloads/angular-super-keyboard(2)/src/app/keyboard/keyboard-commands';
 import {CharCursor} from './fake-char/char-cursor';
+import {AngularKeyboardService} from '../angular-keyboard.service';
 
 // import {FakeCharComponent} from './fake-char/fake-char.component';
 
@@ -13,7 +12,7 @@ enum Side {
 }
 
 interface Char {
-  char: string
+  char: string;
 }
 
 interface Cursor {
@@ -52,7 +51,14 @@ export class FakeInputComponent implements OnInit {
 
   chars: Char[] = [];
 
-  cursor: Cursor | null = null;
+  private cursorPrivate: Cursor | null = null;
+  get cursor() {
+    return this.cursorPrivate;
+  }
+  set cursor(cursor: Cursor | null) {
+    this.cursorPrivate = cursor;
+    this.angularKeyboardService.cursor$.next(this.cursor);
+  }
 
   get cursorPos(): null | number {
     if (this.cursor != null) {
@@ -69,7 +75,7 @@ export class FakeInputComponent implements OnInit {
   }
 
   constructor(
-    private keyInputService: KeyInputService
+    private angularKeyboardService: AngularKeyboardService
   ) {
   }
 
@@ -80,7 +86,13 @@ export class FakeInputComponent implements OnInit {
           char
         };
       });
-    this.keyInputService.input$.subscribe((next: string) => {
+    this.angularKeyboardService.input$.subscribe(next => {
+      this.handleKeyInput(next);
+    });
+  }
+
+  handleKeyInput(next) {
+    if (this.cursor != null) {
       const handledEvents = {
         [KeyboardCommandButton.BACKSPACE]: () => {
           if (this.cursorPos > 0) {
@@ -102,12 +114,17 @@ export class FakeInputComponent implements OnInit {
           this.insertChar(next);
         }
       }
-    });
+    }
   }
+
 
   @HostListener('document:click', ['$event'])
   handleClickOnDocument(e: MouseEvent | TouchEvent) {
-    if (!isAncestor(e.target as HTMLElement, this.wrapper.nativeElement)) {
+    if (
+      this.cursor != null
+      && !isAncestor(e.target as HTMLElement, this.wrapper.nativeElement)
+      && !isAncestor(e.target as HTMLElement, this.angularKeyboardService.keyboardContainer)
+    ) {
       this.cursor = null;
     }
   }
@@ -116,14 +133,14 @@ export class FakeInputComponent implements OnInit {
   handleKeyboardEvent(e: KeyboardEvent) {
     if (this.cursorPos != null) {
       e.preventDefault();
-      this.keyInputService.input$.next(e.key);
+      this.angularKeyboardService.input$.next(e.key);
     }
   }
 
   insertChar(char: string) {
     this.chars = [
       ...this.chars.slice(0, this.cursorPos),
-      {char: char},
+      {char},
       ...this.chars.slice(this.cursorPos, this.chars.length)
     ];
     this.cursor = {
