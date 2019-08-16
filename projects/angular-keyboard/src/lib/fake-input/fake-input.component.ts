@@ -50,12 +50,6 @@ export class FakeInputComponent implements OnInit {
   @ViewChild('wrapper', {static: true}) wrapper: ElementRef;
   @ViewChildren('fakechar', {read: ElementRef}) charElements: QueryList<ElementRef>;
 
-  styles = {
-    borderWidth: 10,
-    padding: 5
-  };
-
-
   chars: Char[] = [];
 
   cursor: Cursor | null = null;

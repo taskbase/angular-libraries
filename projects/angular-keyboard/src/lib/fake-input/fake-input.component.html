@@ -1,5 +1,4 @@
 <div class="wrapper"
-     [ngStyle]="{'border-width': styles.borderWidth + 'px', 'padding': styles.padding + 'px'}"
      #wrapper
      (click)="onClickInputField($event, wrapper)">
   <ng-container *ngFor="let char of chars; let idx = index">
