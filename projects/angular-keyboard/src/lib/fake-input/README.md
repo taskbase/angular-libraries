@@ -1,16 +1,12 @@
 # TODOS
 
 # risky
-- handling blurring
-- only show keyboard if there is no physical device connected => detect if cursor is set with mouse: if yes, then don't show the keyboard, if no, then show keyboard... or... just always show the keyboard...?
-- handle arrow keys...
-- if abcde breaks to newline after c and you hit arrow left on de, you should first jump to left of d and then to right of e...
-- handle clicks that aren't exactly on elements
-- let final solution user test
+- ranges...
+- newline / enter behaves weirdly
 
 ## low risk
-- 123 TAB
-- special chars TAB
+- handle up / down arrow keys
+- improve left / right arrow keys (not so important, barely noticable bug with current solution)
 
 # PROBLEMS
 - dead spots where you cannot click
