@@ -1,9 +1,13 @@
 .wrapper {
 
-  // padding: if you want padding, you need some more logic to handle clicks onto the padding...
+  // padding added via JS
+  // border-width added via JS
 
   font-size: 20px;
-  border: 1px solid black;
+
+  border-style: solid;
+  border-color: black;
+
   margin-bottom: 5px;
   display: block;
   line-height: 1;
