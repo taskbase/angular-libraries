@@ -12,8 +12,6 @@ body {
 # TODOs
 
 - 123 Tab
-- Styling options
-- Correction Mode
 
 
 # Issues

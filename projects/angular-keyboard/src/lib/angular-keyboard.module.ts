@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ModuleWithProviders, NgModule} from '@angular/core';
 import {KeyboardContainerComponent} from './keyboard-container/keyboard-container.component';
 import {KeyboardComponent} from './keyboard/keyboard.component';
 import {CommonModule} from '@angular/common';
@@ -8,6 +8,11 @@ import {SpacebarButtonComponent} from './buttons/spacebar-button/spacebar-button
 import {IconButtonComponent} from './buttons/icon-button/icon-button.component';
 import {FakeInputComponent} from './fake-input/fake-input.component';
 import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
+import {KEYBOARD_CONFIG} from './constants';
+
+export interface AngularKeyboardModuleConfig {
+  inputFieldStyling: any;
+}
 
 @NgModule({
   imports: [
@@ -31,4 +36,12 @@ import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
   ]
 })
 export class AngularKeyboardModule {
+  static forRoot(config: AngularKeyboardModuleConfig): ModuleWithProviders {
+    return {
+      ngModule: AngularKeyboardModule,
+      providers: [
+        {provide: KEYBOARD_CONFIG, useValue: config}
+      ]
+    };
+  }
 }

@@ -1,10 +1,12 @@
-import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 
 import {CharCursor} from './fake-char/char-cursor';
 import {AngularKeyboardService} from '../angular-keyboard.service';
 import {Subscription} from 'rxjs';
 import {KeyboardCommandButton} from '../keyboard-commands';
 import {Char, CharState} from './char';
+import {AngularKeyboardModuleConfig} from '../angular-keyboard.module';
+import {KEYBOARD_CONFIG} from '../constants';
 
 enum Side {
   LEFT = 'LEFT',
@@ -62,8 +64,10 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   constructor(
-    private angularKeyboardService: AngularKeyboardService
+    private angularKeyboardService: AngularKeyboardService,
+    @Inject(KEYBOARD_CONFIG) private config: AngularKeyboardModuleConfig
   ) {
+    console.log(config);
   }
 
   ngOnInit() {

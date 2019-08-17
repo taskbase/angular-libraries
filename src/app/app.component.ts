@@ -8,17 +8,11 @@ import {AngularKeyboardService} from '../../projects/angular-keyboard/src/lib/an
 })
 export class AppComponent {
 
-
-  inputText = 'Hello World';
   input$ = this.keyboardService.input$;
 
   constructor(
     private keyboardService: AngularKeyboardService
   ) {
-  }
-
-  onFocus(inputElement: HTMLElement) {
-    // inputElement.blur();
   }
 
 }

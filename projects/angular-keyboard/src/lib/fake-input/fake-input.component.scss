@@ -1,17 +1,5 @@
 .wrapper {
-
-  border: 1px solid black;
-  padding: 5px;
-
-  font-size: 20px;
-
-  margin-bottom: 5px;
-  display: block;
-  line-height: 1;
-
   white-space: pre-wrap; // to preserve multiple sequential whitespaces
-  text-align: left;
   cursor: text;
-
   user-select: none;
 }
