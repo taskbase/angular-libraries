@@ -5,6 +5,7 @@ export enum KeyboardCommandButton {
   SPECIAL_CHARS = '#+=',
   BACKSPACE = 'Backspace',
   ENTER = 'Enter',
+  ESCAPE = 'Escape',
   ARROW_LEFT = 'ArrowLeft',
   ARROW_RIGHT = 'ArrowRight',
   ARROW_DOWN = 'ArrowDown',

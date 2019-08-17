@@ -1,9 +1,9 @@
 import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 
-import {KeyboardCommandButton} from '../../../../../../../../Downloads/angular-super-keyboard(2)/src/app/keyboard/keyboard-commands';
 import {CharCursor} from './fake-char/char-cursor';
 import {AngularKeyboardService} from '../angular-keyboard.service';
 import {Subscription} from 'rxjs';
+import {KeyboardCommandButton} from '../keyboard-commands';
 
 // import {FakeCharComponent} from './fake-char/fake-char.component';
 
@@ -106,6 +106,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
         [KeyboardCommandButton.ARROW_LEFT]: () => this.moveCursorLeft(),
         [KeyboardCommandButton.ARROW_RIGHT]: () => this.moveCursorRight(),
         [KeyboardCommandButton.ARROW_UP]: () => this.moveCursorUp(),
+        [KeyboardCommandButton.ESCAPE]: () => this.angularKeyboardService.inputFocused$.next(false),
         [KeyboardCommandButton.ENTER]: () => this.insertChar('\n')
       };
       const action = handledEvents[next];
@@ -168,9 +169,67 @@ export class FakeInputComponent implements OnInit, OnDestroy {
     }
   }
 
+  get charRows() {
+    const charClustersByRow: HTMLElement[][] = [];
+    let lastSeen: HTMLElement | null = null;
+    let currentIndex = 0;
+    this.charElements.toArray().forEach(elt => {
+      const nativeElement = elt.nativeElement as HTMLElement;
+      if (lastSeen != null) {
+        const l = lastSeen as HTMLElement;
+        if (l.getBoundingClientRect().top === nativeElement.getBoundingClientRect().top) {
+          charClustersByRow[currentIndex].push(nativeElement);
+        } else {
+          currentIndex = currentIndex + 1;
+          charClustersByRow.push([nativeElement]);
+        }
+      } else {
+        charClustersByRow.push([nativeElement]);
+      }
+      lastSeen = nativeElement;
+    });
+    return charClustersByRow;
+  }
+
+  setCursorToElement(elt: HTMLElement) {
+    this.charElements.toArray().forEach((charElt, idx) => {
+      if (charElt.nativeElement === elt) {
+        this.cursor = {
+          index: idx,
+          side: Side.LEFT
+        };
+      }
+    });
+  }
 
   moveCursorUp() {
-    // TODO
+    const selected = this.charElements.toArray()[this.cursor.index].nativeElement as HTMLElement;
+    const charRows = this.charRows;
+    let selectedElementRow: number;
+    // OPTIMIZE: no need to iterate through entire thing, use continue and traditional for loop...?
+    charRows.forEach((charRow, charRowIndex) => {
+      if (charRow.find(charElt => charElt === selected) != null) {
+        selectedElementRow = charRowIndex;
+      }
+    });
+    if (selectedElementRow === 0) {
+      this.cursor = {
+        index: 0,
+        side: Side.LEFT
+      };
+    } else if (selectedElementRow > 0) {
+      const centerOfSelectedElement = (selected.getBoundingClientRect().left + selected.getBoundingClientRect().right) / 2;
+      const charRowAboveSelectedElement = charRows[selectedElementRow - 1];
+      charRowAboveSelectedElement.forEach(charElt => {
+        const charEltBound = charElt.getBoundingClientRect();
+        const isInside = charEltBound.left < centerOfSelectedElement && charEltBound.right > centerOfSelectedElement;
+        if (isInside) {
+          this.setCursorToElement(charElt);
+        }
+      });
+    } else {
+      throw new Error('did not expect to get here');
+    }
   }
 
   moveCursorLeft() {
@@ -263,15 +322,19 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   }
 
 
-  clickedInsideHorizontal(e, elt) {
+  clickedInsideHorizontal(e, elt: HTMLElement) {
     const bound = elt.getBoundingClientRect();
-    return e.clientX > bound.left && e.clientX < elt.right;
+    return e.clientX > bound.left && e.clientX < bound.right;
   }
 
-
-  clickedInsideVertical(e, elt) {
+  clickedInsideVertical(e, elt: HTMLElement) {
     const bound = elt.getBoundingClientRect();
     return e.clientY > bound.top && e.clientY < bound.bottom;
+  }
+
+  isInside(x: number, y: number, elt: HTMLElement) {
+    const bound = elt.getBoundingClientRect();
+    return x > bound.left && x < bound.right && y > bound.top && y < bound.bottom;
   }
 
   onClickInputField(e) {
