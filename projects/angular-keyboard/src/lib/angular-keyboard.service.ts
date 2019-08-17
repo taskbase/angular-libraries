@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {ElementRef, Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 
 @Injectable({
@@ -6,7 +6,9 @@ import {Subject} from 'rxjs';
 })
 export class AngularKeyboardService {
 
-  inputFocused$ = new Subject<boolean>();
+  inputFields: ElementRef[] = [];
+
+  inputFocused$ = new Subject<null | HTMLElement>();
 
   input$ = new Subject();
 

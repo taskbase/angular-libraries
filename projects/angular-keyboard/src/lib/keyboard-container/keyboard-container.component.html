@@ -2,5 +2,5 @@
      (click)="onClickOnPage($event)">
   <ng-content></ng-content>
 </div>
-<tb-keyboard *ngIf="(inputFocused$ | async)"
+<tb-keyboard *ngIf="(inputFocused$ | async) != null"
              (click)="onClickKeyboard($event)"></tb-keyboard>

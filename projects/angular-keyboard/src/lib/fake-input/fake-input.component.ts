@@ -21,10 +21,8 @@ interface Cursor {
   side: Side;
 }
 
-export const FAKE_INPUT_SELECTOR = 'app-fake-input';
-
 @Component({
-  selector: FAKE_INPUT_SELECTOR,
+  selector: 'app-fake-input',
   templateUrl: './fake-input.component.html',
   styleUrls: ['./fake-input.component.scss']
 })
@@ -46,7 +44,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   set cursor(c: Cursor | null) {
     this.cursorInternal = c;
     if (this.cursorInternal != null) {
-      this.angularKeyboardService.inputFocused$.next(true);
+      this.angularKeyboardService.inputFocused$.next(this.wrapper.nativeElement);
     }
   }
 
@@ -72,6 +70,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.registerInputField();
     this.chars = 'You need these concepts to check if the mouse is inside a line: Define the starting & ending points of a line.'
       .split('').map(char => {
         return {
@@ -83,7 +82,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
         this.handleKeyInput(next);
       }),
       this.angularKeyboardService.inputFocused$.subscribe(next => {
-        if (next === false) {
+        if (next !== this.wrapper.nativeElement) {
           this.cursor = null;
         }
       })
@@ -92,6 +91,20 @@ export class FakeInputComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.deregisterInputField();
+  }
+
+  registerInputField() {
+    this.angularKeyboardService.inputFields.push(this.wrapper);
+  }
+
+  deregisterInputField() {
+    const indexOfInputField = this.angularKeyboardService.inputFields.indexOf(this.wrapper);
+    if (indexOfInputField !== -1) {
+      this.angularKeyboardService.inputFields.splice(indexOfInputField, 1);
+    } else {
+      throw new Error('element not found for deregistration');
+    }
   }
 
   handleKeyInput(next) {
@@ -107,7 +120,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
         [KeyboardCommandButton.ARROW_RIGHT]: () => this.moveCursorRight(),
         [KeyboardCommandButton.ARROW_UP]: () => this.moveCursorUp(),
         [KeyboardCommandButton.ARROW_DOWN]: () => this.moveCursorDown(),
-        [KeyboardCommandButton.ESCAPE]: () => this.angularKeyboardService.inputFocused$.next(false),
+        [KeyboardCommandButton.ESCAPE]: () => this.angularKeyboardService.inputFocused$.next(null),
         [KeyboardCommandButton.ENTER]: () => this.insertChar('\n')
       };
       const action = handledEvents[next];
@@ -123,7 +136,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   }
 
   focusInput() {
-    this.angularKeyboardService.inputFocused$.next(true);
+    this.angularKeyboardService.inputFocused$.next(this.wrapper.nativeElement);
   }
 
   @HostListener('document:keydown', ['$event'])

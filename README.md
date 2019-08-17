@@ -12,7 +12,6 @@ body {
 # TODOs
 
 - 123 Tab
-- Making it multi-input-field-capable
 - Styling options
 - Correction Mode
 
