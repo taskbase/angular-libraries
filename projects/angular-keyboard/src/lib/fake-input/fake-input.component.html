@@ -5,6 +5,7 @@
     <app-fake-char #fakechar
                    (clickLeft)="onClickCharLeft(char, idx)"
                    (clickRight)="onClickCharRight(char, idx)"
-                   [cursor]="getCursor(idx)">{{char.char}}</app-fake-char>
+                   [char]="char"
+                   [cursor]="getCursor(idx)"></app-fake-char>
   </ng-container>
 </div>

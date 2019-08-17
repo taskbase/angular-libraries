@@ -9,7 +9,6 @@ import {IconButtonComponent} from './buttons/icon-button/icon-button.component';
 import {FakeInputComponent} from './fake-input/fake-input.component';
 import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
 
-
 @NgModule({
   imports: [
     CommonModule,

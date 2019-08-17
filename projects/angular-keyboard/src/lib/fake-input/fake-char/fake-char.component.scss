@@ -16,6 +16,15 @@ $cursor-width: 1px;
   border-right: $cursor-width solid black;
 }
 
+.added {
+  font-weight: bold;
+  color: blue;
+}
+
+.removed {
+  color: lightblue;
+  text-decoration: line-through;
+}
 
 @keyframes blink-animation2 {
   0%   {border-color: rgba(0,0,0,1);}

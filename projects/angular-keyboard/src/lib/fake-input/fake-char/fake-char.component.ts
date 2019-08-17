@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CharCursor} from './char-cursor';
+import {Char, CharState} from '../char';
 
 @Component({
   selector: 'app-fake-char',
@@ -10,6 +11,7 @@ import {CharCursor} from './char-cursor';
 export class FakeCharComponent implements OnInit {
 
   @Input() cursor = CharCursor.NONE;
+  @Input() char: Char;
 
   @Output() clickLeft = new EventEmitter();
   @Output() clickRight = new EventEmitter();
@@ -38,6 +40,15 @@ export class FakeCharComponent implements OnInit {
 
   get isCursorRight() {
     return this.cursor === CharCursor.RIGHT;
+  }
+
+  get ngClass() {
+    return {
+      'cursor-left': this.isCursorLeft,
+      'cursor-right': this.isCursorRight,
+      added: this.char.charState === CharState.ADDED,
+      removed: this.char.charState === CharState.REMOVED
+    };
   }
 
 }

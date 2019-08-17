@@ -4,16 +4,11 @@ import {CharCursor} from './fake-char/char-cursor';
 import {AngularKeyboardService} from '../angular-keyboard.service';
 import {Subscription} from 'rxjs';
 import {KeyboardCommandButton} from '../keyboard-commands';
-
-// import {FakeCharComponent} from './fake-char/fake-char.component';
+import {Char, CharState} from './char';
 
 enum Side {
   LEFT = 'LEFT',
   RIGHT = 'RIGHT'
-}
-
-interface Char {
-  char: string;
 }
 
 interface Cursor {
@@ -29,6 +24,8 @@ interface Cursor {
 export class FakeInputComponent implements OnInit, OnDestroy {
 
   @Input() key: string;
+  @Input() suggestionMode = false;
+
   @ViewChild('text', {static: true}) textElement: ElementRef;
   @ViewChild('wrapper', {static: true}) wrapper: ElementRef;
   @ViewChildren('fakechar', {read: ElementRef}) charElements: QueryList<ElementRef>;
@@ -148,26 +145,67 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   }
 
   insertChar(char: string) {
+    const newChar = {
+      char,
+      charState: this.suggestionMode ? CharState.ADDED : null
+    };
     this.chars = [
       ...this.chars.slice(0, this.cursorPos),
-      {char},
+      newChar,
       ...this.chars.slice(this.cursorPos, this.chars.length)
     ];
     this.cursor = {
       index: this.cursorPos,
       side: Side.RIGHT
     };
+
+    this.cleanSuggestions();
+  }
+
+  cleanSuggestions() {
+    if (this.suggestionMode) {
+      const updatedChars = [];
+      // tslint:disable-next-line
+      for (let i = 0; i < this.chars.length; i++) {
+        const char = this.chars[i];
+        const nextChar = this.chars[i + 1];
+        if (
+          char.charState === CharState.ADDED &&
+          nextChar != null && nextChar.charState === CharState.REMOVED &&
+          char.char === nextChar.char
+        ) {
+          // this and the next char should be removed.
+          updatedChars.push({
+            ...char,
+            charState: null
+          });
+
+          // Skip the next index.
+          i = i + 1;
+        } else {
+          updatedChars.push(char);
+        }
+      }
+      this.chars = updatedChars;
+    }
+  }
+
+  deleteChar(charIndex: number) {
+    this.chars = [
+      ...this.chars.slice(0, charIndex - 1),
+      ...this.chars.slice(charIndex, this.chars.length)
+    ];
   }
 
   deleteCharLeftAndAdjustCursor() {
     if (this.cursorPos === 0) {
       // cannot delete more...
     } else {
-      // actually delete the char
-      this.chars = [
-        ...this.chars.slice(0, this.cursorPos - 1),
-        ...this.chars.slice(this.cursorPos, this.chars.length)
-      ];
+      if (this.suggestionMode) {
+        this.handleSuggestionModeOnDeleteCharLeft();
+      } else {
+        this.deleteChar(this.cursorPos);
+      }
       // adjust the cursor
       if (this.cursorPos === 1) {
         this.cursor = {
@@ -180,6 +218,20 @@ export class FakeInputComponent implements OnInit, OnDestroy {
           side: Side.RIGHT
         };
       }
+    }
+  }
+
+  handleSuggestionModeOnDeleteCharLeft() {
+    const charLeft = this.chars[this.cursorPos - 1];
+    if (charLeft.charState === CharState.ADDED) {
+      // it's ok to kick it out
+      this.deleteChar(this.cursorPos);
+    } else {
+      // mark the char left as deleted but don't actually delete
+      this.chars[this.cursorPos - 1] = {
+        ...charLeft,
+        charState: CharState.REMOVED
+      };
     }
   }
 
