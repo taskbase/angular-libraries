@@ -191,12 +191,12 @@ export class FakeInputComponent implements OnInit, OnDestroy {
     return charClustersByRow;
   }
 
-  setCursorToElement(elt: HTMLElement) {
+  setCursorToElement(elt: HTMLElement, side: Side) {
     this.charElements.toArray().forEach((charElt, idx) => {
       if (charElt.nativeElement === elt) {
         this.cursor = {
           index: idx,
-          side: Side.LEFT
+          side
         };
       }
     });
@@ -220,13 +220,20 @@ export class FakeInputComponent implements OnInit, OnDestroy {
     } else if (selectedElementRow > 0) {
       const centerOfSelectedElement = (selected.getBoundingClientRect().left + selected.getBoundingClientRect().right) / 2;
       const charRowAboveSelectedElement = charRows[selectedElementRow - 1];
-      charRowAboveSelectedElement.forEach(charElt => {
+
+      for (const charElt of charRowAboveSelectedElement) {
         const charEltBound = charElt.getBoundingClientRect();
         const isInside = charEltBound.left < centerOfSelectedElement && charEltBound.right > centerOfSelectedElement;
         if (isInside) {
-          this.setCursorToElement(charElt);
+          const side = centerOfSelectedElement - charEltBound.left < charEltBound.right - centerOfSelectedElement
+            ? Side.LEFT
+            : Side.RIGHT;
+          this.setCursorToElement(charElt, side);
+          return;
         }
-      });
+      }
+      // if nothing is found, the cursor is set to the last element on the right
+      this.setCursorToElement(charRowAboveSelectedElement[charRowAboveSelectedElement.length - 1], Side.RIGHT);
     } else {
       throw new Error('did not expect to get here');
     }
