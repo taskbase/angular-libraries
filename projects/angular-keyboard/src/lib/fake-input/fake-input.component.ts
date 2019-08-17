@@ -206,13 +206,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   moveCursorUp() {
     const selected = this.charElements.toArray()[this.cursor.index].nativeElement as HTMLElement;
     const charRows = this.charRows;
-    let selectedElementRow: number;
-    // OPTIMIZE: no need to iterate through entire thing, use continue and traditional for loop...?
-    charRows.forEach((charRow, charRowIndex) => {
-      if (charRow.find(charElt => charElt === selected) != null) {
-        selectedElementRow = charRowIndex;
-      }
-    });
+    const selectedElementRow = this.getSelectedElementRow(selected, charRows);
     if (selectedElementRow === 0) {
       this.cursor = {
         index: 0,
@@ -226,17 +220,10 @@ export class FakeInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  // TODO: depulicate
   moveCursorDown() {
     const selected = this.charElements.toArray()[this.cursor.index].nativeElement as HTMLElement;
     const charRows = this.charRows;
-    let selectedElementRow: number;
-    // OPTIMIZE: no need to iterate through entire thing, use continue and traditional for loop...?
-    charRows.forEach((charRow, charRowIndex) => {
-      if (charRow.find(charElt => charElt === selected) != null) {
-        selectedElementRow = charRowIndex;
-      }
-    });
+    const selectedElementRow = this.getSelectedElementRow(selected, charRows);
     if (selectedElementRow === charRows.length - 1) {
       this.cursor = {
         index: this.charElements.length - 1,
@@ -250,13 +237,27 @@ export class FakeInputComponent implements OnInit, OnDestroy {
     }
   }
 
+  getSelectedElementRow(selected: HTMLElement, charRows: HTMLElement[][]): number {
+    // TODO: disable the stoopid for loop rule...
+    // tslint:disable-next-line
+    for (let i = 0; i < charRows.length; i++) {
+      const charRow = charRows[i];
+      if (charRow.find(charElt => charElt === selected) != null) {
+        return i;
+      }
+    }
+    throw new Error('should not reach here');
+  }
+
   moveCursorUpDownHelper(selected: HTMLElement, row: HTMLElement[]) {
-    const centerOfSelectedElement = (selected.getBoundingClientRect().left + selected.getBoundingClientRect().right) / 2;
+    const cursorX = this.cursor.side === Side.LEFT
+      ? selected.getBoundingClientRect().left
+      : selected.getBoundingClientRect().right;
     for (const charElt of row) {
       const charEltBound = charElt.getBoundingClientRect();
-      const isInside = charEltBound.left < centerOfSelectedElement && charEltBound.right > centerOfSelectedElement;
+      const isInside = charEltBound.left <= cursorX && charEltBound.right >= cursorX;
       if (isInside) {
-        const side = centerOfSelectedElement - charEltBound.left < charEltBound.right - centerOfSelectedElement
+        const side = cursorX - charEltBound.left < charEltBound.right - cursorX
           ? Side.LEFT
           : Side.RIGHT;
         this.setCursorToElement(charElt, side);
