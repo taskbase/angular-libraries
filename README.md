@@ -12,7 +12,8 @@ body {
 # TODOs
 
 - 123 Tab
-
+- publish library
+- include in other project
 
 # Issues
 
