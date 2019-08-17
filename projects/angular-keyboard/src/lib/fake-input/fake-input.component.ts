@@ -106,6 +106,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
         [KeyboardCommandButton.ARROW_LEFT]: () => this.moveCursorLeft(),
         [KeyboardCommandButton.ARROW_RIGHT]: () => this.moveCursorRight(),
         [KeyboardCommandButton.ARROW_UP]: () => this.moveCursorUp(),
+        [KeyboardCommandButton.ARROW_DOWN]: () => this.moveCursorDown(),
         [KeyboardCommandButton.ESCAPE]: () => this.angularKeyboardService.inputFocused$.next(false),
         [KeyboardCommandButton.ENTER]: () => this.insertChar('\n')
       };
@@ -218,25 +219,52 @@ export class FakeInputComponent implements OnInit, OnDestroy {
         side: Side.LEFT
       };
     } else if (selectedElementRow > 0) {
-      const centerOfSelectedElement = (selected.getBoundingClientRect().left + selected.getBoundingClientRect().right) / 2;
       const charRowAboveSelectedElement = charRows[selectedElementRow - 1];
-
-      for (const charElt of charRowAboveSelectedElement) {
-        const charEltBound = charElt.getBoundingClientRect();
-        const isInside = charEltBound.left < centerOfSelectedElement && charEltBound.right > centerOfSelectedElement;
-        if (isInside) {
-          const side = centerOfSelectedElement - charEltBound.left < charEltBound.right - centerOfSelectedElement
-            ? Side.LEFT
-            : Side.RIGHT;
-          this.setCursorToElement(charElt, side);
-          return;
-        }
-      }
-      // if nothing is found, the cursor is set to the last element on the right
-      this.setCursorToElement(charRowAboveSelectedElement[charRowAboveSelectedElement.length - 1], Side.RIGHT);
+      this.moveCursorUpDownHelper(selected, charRowAboveSelectedElement);
     } else {
       throw new Error('did not expect to get here');
     }
+  }
+
+  // TODO: depulicate
+  moveCursorDown() {
+    const selected = this.charElements.toArray()[this.cursor.index].nativeElement as HTMLElement;
+    const charRows = this.charRows;
+    let selectedElementRow: number;
+    // OPTIMIZE: no need to iterate through entire thing, use continue and traditional for loop...?
+    charRows.forEach((charRow, charRowIndex) => {
+      if (charRow.find(charElt => charElt === selected) != null) {
+        selectedElementRow = charRowIndex;
+      }
+    });
+    if (selectedElementRow === charRows.length - 1) {
+      this.cursor = {
+        index: this.charElements.length - 1,
+        side: Side.RIGHT
+      };
+    } else if (selectedElementRow < charRows.length - 1) {
+      const charRowBelowSelectedElement = charRows[selectedElementRow + 1];
+      this.moveCursorUpDownHelper(selected, charRowBelowSelectedElement);
+    } else {
+      throw new Error('did not expect to get here');
+    }
+  }
+
+  moveCursorUpDownHelper(selected: HTMLElement, row: HTMLElement[]) {
+    const centerOfSelectedElement = (selected.getBoundingClientRect().left + selected.getBoundingClientRect().right) / 2;
+    for (const charElt of row) {
+      const charEltBound = charElt.getBoundingClientRect();
+      const isInside = charEltBound.left < centerOfSelectedElement && charEltBound.right > centerOfSelectedElement;
+      if (isInside) {
+        const side = centerOfSelectedElement - charEltBound.left < charEltBound.right - centerOfSelectedElement
+          ? Side.LEFT
+          : Side.RIGHT;
+        this.setCursorToElement(charElt, side);
+        return;
+      }
+    }
+    // if nothing is found, the cursor is set to the last element on the right
+    this.setCursorToElement(row[row.length - 1], Side.RIGHT);
   }
 
   moveCursorLeft() {
