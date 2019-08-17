@@ -17,4 +17,8 @@
   border-radius: 4px;
 
   font-family: Verdana, Geneva, sans-serif;
+
+  &:focus {
+    outline: none;
+  }
 }

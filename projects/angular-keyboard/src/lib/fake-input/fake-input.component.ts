@@ -1,8 +1,9 @@
-import {Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 
 import {KeyboardCommandButton} from '../../../../../../../../Downloads/angular-super-keyboard(2)/src/app/keyboard/keyboard-commands';
 import {CharCursor} from './fake-char/char-cursor';
 import {AngularKeyboardService} from '../angular-keyboard.service';
+import {Subscription} from 'rxjs';
 
 // import {FakeCharComponent} from './fake-char/fake-char.component';
 
@@ -20,29 +21,14 @@ interface Cursor {
   side: Side;
 }
 
-export function isAncestor(descendant: HTMLElement, potentialAncestor: HTMLElement): boolean {
-  if (descendant === potentialAncestor) {
-    return true;
-  } else {
-    const parentNode = descendant.parentNode;
-    if (parentNode instanceof HTMLElement) {
-      if (parentNode === document.body) {
-        return false;
-      } else {
-        return isAncestor(parentNode, potentialAncestor);
-      }
-    } else {
-      throw new Error(`parent node was not of type HTMLElement, was ${parentNode} instead.`);
-    }
-  }
-}
+export const FAKE_INPUT_SELECTOR = 'app-fake-input';
 
 @Component({
-  selector: 'app-fake-input',
+  selector: FAKE_INPUT_SELECTOR,
   templateUrl: './fake-input.component.html',
   styleUrls: ['./fake-input.component.scss']
 })
-export class FakeInputComponent implements OnInit {
+export class FakeInputComponent implements OnInit, OnDestroy {
 
   @Input() key: string;
   @ViewChild('text', {static: true}) textElement: ElementRef;
@@ -51,13 +37,17 @@ export class FakeInputComponent implements OnInit {
 
   chars: Char[] = [];
 
-  private cursorPrivate: Cursor | null = null;
+  private cursorInternal: Cursor | null = null;
+
   get cursor() {
-    return this.cursorPrivate;
+    return this.cursorInternal;
   }
-  set cursor(cursor: Cursor | null) {
-    this.cursorPrivate = cursor;
-    this.angularKeyboardService.cursor$.next(this.cursor);
+
+  set cursor(c: Cursor | null) {
+    this.cursorInternal = c;
+    if (this.cursorInternal != null) {
+      this.angularKeyboardService.inputFocused$.next(true);
+    }
   }
 
   get cursorPos(): null | number {
@@ -74,6 +64,8 @@ export class FakeInputComponent implements OnInit {
     }
   }
 
+  subscriptions: Subscription[] = [];
+
   constructor(
     private angularKeyboardService: AngularKeyboardService
   ) {
@@ -86,9 +78,20 @@ export class FakeInputComponent implements OnInit {
           char
         };
       });
-    this.angularKeyboardService.input$.subscribe(next => {
-      this.handleKeyInput(next);
-    });
+    this.subscriptions.push(
+      this.angularKeyboardService.input$.subscribe(next => {
+        this.handleKeyInput(next);
+      }),
+      this.angularKeyboardService.inputFocused$.subscribe(next => {
+        if (next === false) {
+          this.cursor = null;
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   handleKeyInput(next) {
@@ -117,16 +120,8 @@ export class FakeInputComponent implements OnInit {
     }
   }
 
-
-  @HostListener('document:click', ['$event'])
-  handleClickOnDocument(e: MouseEvent | TouchEvent) {
-    if (
-      this.cursor != null
-      && !isAncestor(e.target as HTMLElement, this.wrapper.nativeElement)
-      && !isAncestor(e.target as HTMLElement, this.angularKeyboardService.keyboardContainer)
-    ) {
-      this.cursor = null;
-    }
+  focusInput() {
+    this.angularKeyboardService.inputFocused$.next(true);
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -208,6 +203,7 @@ export class FakeInputComponent implements OnInit {
   }
 
   onClickCharLeft(char: string, index: number) {
+    this.focusInput();
     this.cursor = {
       index,
       side: Side.LEFT
@@ -215,6 +211,7 @@ export class FakeInputComponent implements OnInit {
   }
 
   onClickCharRight(char: string, index: number) {
+    this.focusInput();
     this.cursor = {
       index,
       side: Side.RIGHT
@@ -278,6 +275,7 @@ export class FakeInputComponent implements OnInit {
   }
 
   onClickInputField(e) {
+    this.focusInput();
     const closest = this.findClosestHorizontalChar(e);
     if (closest.isLeft) {
       this.cursor = {

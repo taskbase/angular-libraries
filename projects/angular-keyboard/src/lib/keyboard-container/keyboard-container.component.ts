@@ -1,5 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AngularKeyboardService} from '../angular-keyboard.service';
+import {FAKE_INPUT_SELECTOR} from '../fake-input/fake-input.component';
+import {isAncestor} from '../dom-utils';
 
 @Component({
   selector: 'tb-keyboard-container',
@@ -8,17 +10,30 @@ import {AngularKeyboardService} from '../angular-keyboard.service';
 })
 export class KeyboardContainerComponent implements OnInit {
 
-  @ViewChild('keyboard', {static: true}) keyboardContainer: ElementRef;
+  inputFocused$ = this.angularKeyboardService.inputFocused$;
 
   constructor(
     private angularKeyboardService: AngularKeyboardService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
   }
 
-  ngAfterViewInit() {
-    this.angularKeyboardService.keyboardContainer = this.keyboardContainer;
+  onClickKeyboard(e) {
+    e.stopPropagation();
+  }
+
+  onClickOnPage(e) {
+    const fakeInputs = Array.from(document.getElementsByTagName(FAKE_INPUT_SELECTOR));
+    const isFakeInput = fakeInputs
+      .map(fakeInputElt => isAncestor(e.target, fakeInputElt as HTMLElement))
+      .reduce((a, b) => a || b, false);
+    if (isFakeInput) {
+      // don't blur
+    } else {
+      this.angularKeyboardService.inputFocused$.next(false);
+    }
   }
 
 }
