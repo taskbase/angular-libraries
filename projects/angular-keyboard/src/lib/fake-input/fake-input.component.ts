@@ -1,4 +1,17 @@
-import {Component, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 
 import {CharCursor} from './fake-char/char-cursor';
 import {AngularKeyboardService} from '../angular-keyboard.service';
@@ -25,8 +38,9 @@ interface Cursor {
 })
 export class FakeInputComponent implements OnInit, OnDestroy {
 
-  @Input() key: string;
   @Input() suggestionMode = false;
+
+  @Output() text = new EventEmitter();
 
   @ViewChild('text', {static: true}) textElement: ElementRef;
   @ViewChild('wrapper', {static: true}) wrapper: ElementRef;
@@ -72,7 +86,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.registerInputField();
-    this.chars = 'You need these concepts to check if the mouse is inside a line: Define the starting & ending points of a line.'
+    this.chars = 'Ich danke also bin ich. Ich hape es gessehen. Ich weiss dass ich nichts weiss.'
       .split('').map(char => {
         return {
           char
@@ -133,7 +147,15 @@ export class FakeInputComponent implements OnInit, OnDestroy {
           this.insertChar(next);
         }
       }
+      this.text.emit(this.getText());
     }
+  }
+
+  getText() {
+    return this.chars
+      .filter(char => char.charState !== CharState.REMOVED)
+      .map(char => char.char)
+      .join('');
   }
 
   focusInput() {

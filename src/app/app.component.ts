@@ -15,4 +15,8 @@ export class AppComponent {
   ) {
   }
 
+  onTextChange(text: string) {
+    console.log(text);
+  }
+
 }
