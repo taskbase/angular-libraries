@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import {KeyboardCommandButton} from '../keyboard-commands';
 import {AngularKeyboardService} from '../angular-keyboard.service';
@@ -8,13 +8,18 @@ import {AngularKeyboardService} from '../angular-keyboard.service';
   templateUrl: './keyboard.component.html',
   styleUrls: ['./keyboard.component.scss']
 })
-export class KeyboardComponent implements OnInit {
+export class KeyboardComponent implements OnInit, AfterViewInit {
 
   @Output() pressedKey = new EventEmitter();
+  @Output() viewInitialized = new EventEmitter();
 
   constructor(
     private keyboardService: AngularKeyboardService
   ) { }
+
+  ngAfterViewInit() {
+    this.viewInitialized.emit();
+  }
 
   readonly keyboardCommandButton = KeyboardCommandButton;
 

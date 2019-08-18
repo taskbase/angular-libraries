@@ -57,7 +57,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   set cursor(c: Cursor | null) {
     this.cursorInternal = c;
     if (this.cursorInternal != null) {
-      this.angularKeyboardService.inputFocused$.next(this.wrapper.nativeElement);
+      this.focusInput();
     }
   }
 
