@@ -8,6 +8,9 @@ body {
 }
 ```
 
+# Demo
+
+https://angular-keyboard-demo.firebaseapp.com/
 
 # TODOs
 
