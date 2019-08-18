@@ -29,10 +29,6 @@ export class KeyboardContainerComponent implements OnInit, OnDestroy {
     this.subs.forEach(sub => sub.unsubscribe());
   }
 
-  onClickKeyboard(e) {
-    e.stopPropagation();
-  }
-
   onClickOnPage(e) {
     const isFakeInput = this.angularKeyboardService.inputFields
       .map(fakeInputElt => isAncestor(e.target, fakeInputElt.nativeElement))

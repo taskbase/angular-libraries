@@ -3,6 +3,5 @@
   <ng-content></ng-content>
 </div>
 <tb-keyboard *ngIf="inputFocused != null"
-             (viewInitialized)="onKeyboardViewInit()"
-             (click)="onClickKeyboard($event)">
+             (viewInitialized)="onKeyboardViewInit()">
 </tb-keyboard>
