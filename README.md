@@ -17,6 +17,14 @@ https://angular-keyboard-demo.firebaseapp.com/
 - 123 Tab
 - publish library
 - include in other project
+- Handle backspace button
+- nicer icons for buttons
+
+
+## iphone
+- the keyboard is not sticky
+- the 
+
 
 # Issues
 

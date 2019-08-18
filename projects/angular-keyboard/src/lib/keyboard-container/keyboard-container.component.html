@@ -1,7 +1,10 @@
 <div class="page-content"
+     [ngClass]="{'keyboard-open': inputFocused}"
      (click)="onClickOnPage($event)">
   <ng-content></ng-content>
 </div>
-<tb-keyboard *ngIf="inputFocused != null"
+<tb-keyboard class="keyboard"
+             id="keyboard"
+             *ngIf="inputFocused != null"
              (viewInitialized)="onKeyboardViewInit()">
 </tb-keyboard>

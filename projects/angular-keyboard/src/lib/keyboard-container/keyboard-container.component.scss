@@ -1,12 +1,27 @@
+$keyboard-height: 180px;
+
 :host {
-  display: flex;
   height: 100vh;
-  flex-direction: column;
+  position: relative;
+  display: block;
 }
 
 .page-content {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
   overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &.keyboard-open {
+    bottom: $keyboard-height;
+  }
+}
+
+.keyboard {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: $keyboard-height;
 }

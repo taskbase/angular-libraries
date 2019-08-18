@@ -3,7 +3,7 @@
   <p>
     Click into the input field to open the keyboard.
   </p>
-  <div style="width: 500px; margin: 0 auto;">
+  <div style="width: 500px; max-width: 100%; margin: 0 auto;">
     <app-fake-input (text)="onTextChange($event)">
     </app-fake-input>
   </div>
@@ -11,7 +11,7 @@
   <p>
     Here's a second input field with suggestion mode turned on.
   </p>
-  <div style="width: 400px; margin: 0 auto;">
+  <div style="width: 400px; max-width: 100%; margin: 0 auto;">
     <app-fake-input [suggestionMode]="true"
                     (text)="onTextChange($event)">
     </app-fake-input>

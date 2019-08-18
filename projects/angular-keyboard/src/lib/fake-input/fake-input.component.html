@@ -1,7 +1,7 @@
 <div class="wrapper"
      [ngStyle]="config.styles?.inputField"
      #wrapper
-     (click)="onClickInputField($event, wrapper)">
+     (click)="onClickInputField($event)">
   <ng-container *ngFor="let char of chars; let idx = index">
     <app-fake-char #fakechar
                    (clickLeft)="onClickCharLeft(char, idx)"
