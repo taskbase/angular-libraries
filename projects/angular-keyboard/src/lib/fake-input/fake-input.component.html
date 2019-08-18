@@ -1,5 +1,5 @@
 <div class="wrapper"
-     [ngStyle]="config.inputFieldStyling"
+     [ngStyle]="config.styles?.inputField"
      #wrapper
      (click)="onClickInputField($event, wrapper)">
   <ng-container *ngFor="let char of chars; let idx = index">

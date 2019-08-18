@@ -11,7 +11,11 @@ import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
 import {KEYBOARD_CONFIG} from './constants';
 
 export interface AngularKeyboardModuleConfig {
-  inputFieldStyling: any;
+  styles?: {
+    inputField?: any;
+    addedChar?: any;
+    removedChar?: any;
+  };
 }
 
 @NgModule({

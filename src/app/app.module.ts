@@ -14,16 +14,26 @@ import {FormsModule} from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     AngularKeyboardModule.forRoot({
-      inputFieldStyling: {
-        'font-family': '"Palatino Linotype","Book Antiqua",Palatino,serif',
-        'font-size': '120%',
-        display: 'block',
-        'line-height': '1.61',
-        padding: '20px',
-        'border-radius': '5px',
-        background: '#f5f5f5',
-        'box-shadow': 'inset 0 1px 1px rgba(0,0,0,.05)',
-        'text-align': 'left'
+      styles: {
+        inputField: {
+          'font-family': '"Palatino Linotype","Book Antiqua",Palatino,serif',
+          'font-size': '120%',
+          display: 'block',
+          'line-height': '1.61',
+          padding: '20px',
+          'border-radius': '5px',
+          background: '#f5f5f5',
+          'box-shadow': 'inset 0 1px 1px rgba(0,0,0,.05)',
+          'text-align': 'left'
+        },
+        addedChar: {
+          'font-weight': 'bold',
+          color: 'blue'
+        },
+        removedChar: {
+          color: 'lightblue',
+          'text-decoration': 'line-through'
+        }
       }
     }),
     FormsModule
@@ -31,4 +41,5 @@ import {FormsModule} from '@angular/forms';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -81,7 +81,6 @@ export class FakeInputComponent implements OnInit, OnDestroy {
     private angularKeyboardService: AngularKeyboardService,
     @Inject(KEYBOARD_CONFIG) private config: AngularKeyboardModuleConfig
   ) {
-    console.log(config);
   }
 
   ngOnInit() {

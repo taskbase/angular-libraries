@@ -1,6 +1,8 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {CharCursor} from './char-cursor';
 import {Char, CharState} from '../char';
+import {KEYBOARD_CONFIG} from '../../constants';
+import {AngularKeyboardModuleConfig} from '../../angular-keyboard.module';
 
 @Component({
   selector: 'app-fake-char',
@@ -16,7 +18,9 @@ export class FakeCharComponent implements OnInit {
   @Output() clickLeft = new EventEmitter();
   @Output() clickRight = new EventEmitter();
 
-  constructor() {
+  constructor(
+    @Inject(KEYBOARD_CONFIG) private config: AngularKeyboardModuleConfig
+  ) {
   }
 
   ngOnInit() {
@@ -45,10 +49,18 @@ export class FakeCharComponent implements OnInit {
   get ngClass() {
     return {
       'cursor-left': this.isCursorLeft,
-      'cursor-right': this.isCursorRight,
-      added: this.char.charState === CharState.ADDED,
-      removed: this.char.charState === CharState.REMOVED
+      'cursor-right': this.isCursorRight
     };
+  }
+
+  get ngStyle() {
+    if (this.char.charState === CharState.ADDED) {
+      return this.config.styles.addedChar;
+    } else if (this.char.charState === CharState.REMOVED) {
+      return this.config.styles.removedChar;
+    } else {
+      // no extra styles
+    }
   }
 
 }
