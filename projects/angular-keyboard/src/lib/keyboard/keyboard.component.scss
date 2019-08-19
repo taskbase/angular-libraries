@@ -35,10 +35,6 @@ $keyboard-max-width: 500px;
   background: $button-background-regular;
 }
 
-.spacebar-button {
-  flex-basis: multiCellButtonWidth(7);
-  background: $button-background-regular;
-}
 
 .keyboard-button-base {
   flex-grow: 1;
@@ -63,6 +59,13 @@ $keyboard-max-width: 500px;
   &:focus {
     outline: none;
   }
+
+  &.spacebar-button {
+    flex-basis: multiCellButtonWidth(7);
+    background: $button-background-regular;
+    flex-grow: 10;
+  }
+
 }
 
 .icon-button {
