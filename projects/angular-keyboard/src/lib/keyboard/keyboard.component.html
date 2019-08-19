@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" (click)="onClickWrapper($event)">
   <div *ngFor="let row of selectedTab"
        class="keyboard-row">
     <div *ngFor="let btn of row">

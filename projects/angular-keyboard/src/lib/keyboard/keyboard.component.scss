@@ -7,4 +7,5 @@
   .keyboard-row {
     display: flex;
   }
+  touch-action: manipulation; // no zoom on double tap on iOS
 }
