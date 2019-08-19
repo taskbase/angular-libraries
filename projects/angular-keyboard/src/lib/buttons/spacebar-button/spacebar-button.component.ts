@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'tb-spacebar-button',
@@ -10,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpacebarButtonComponent implements OnInit {
 
+  @Output() buttonClick = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onClick() {
+    this.buttonClick.emit(' ');
   }
 
 }

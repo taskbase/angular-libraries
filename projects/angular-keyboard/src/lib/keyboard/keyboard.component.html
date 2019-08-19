@@ -10,7 +10,8 @@
           </tb-icon-button>
         </ng-container>
         <ng-container *ngSwitchCase="keyboardCommandButton.BACKSPACE">
-          <tb-icon-button [btn]="btn">
+          <tb-icon-button (buttonClick)="onKeyboardButtonClick($event)"
+                          [btn]="btn">
           </tb-icon-button>
         </ng-container>
         <ng-container *ngSwitchCase="keyboardCommandButton.ONE_TWO_THREE">
@@ -18,7 +19,8 @@
           </tb-icon-button>
         </ng-container>
         <ng-container *ngSwitchCase="keyboardCommandButton.SPACEBAR">
-          <tb-spacebar-button></tb-spacebar-button>
+          <tb-spacebar-button (buttonClick)="onKeyboardButtonClick($event)">
+          </tb-spacebar-button>
         </ng-container>
         <ng-container *ngSwitchDefault>
           <tb-single-char-button [btn]="btn"
