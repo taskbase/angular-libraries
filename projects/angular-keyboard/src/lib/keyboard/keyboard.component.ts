@@ -13,13 +13,6 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
   @Output() pressedKey = new EventEmitter();
   @Output() viewInitialized = new EventEmitter();
 
-  constructor(
-    private keyboardService: AngularKeyboardService
-  ) { }
-
-  ngAfterViewInit() {
-    this.viewInitialized.emit();
-  }
 
   readonly keyboardCommandButton = KeyboardCommandButton;
 
@@ -30,6 +23,20 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     [KeyboardCommandButton.ONE_TWO_THREE, KeyboardCommandButton.SPACEBAR, '.']
   ];
 
+  readonly numbersTab = [
+    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+    ['-', '/', ':', ';', '(', ')', '€', '&', '@', '"'],
+    [KeyboardCommandButton.SPECIAL_CHARS, '.', ',', '?', '!', `'`, KeyboardCommandButton.BACKSPACE],
+    [KeyboardCommandButton.A_B_C, KeyboardCommandButton.SPACEBAR, '.']
+  ];
+
+  readonly specialCharsTab = [
+    ['[', ']', '{', '}', '#', '%', '^', '*', '+', '='],
+    ['_', '\\', '|', '~', '<', '>', '$', '£', '¥', '•'],
+    [KeyboardCommandButton.ONE_TWO_THREE, '.', ',', '?', '!', `'`, KeyboardCommandButton.BACKSPACE],
+    [KeyboardCommandButton.A_B_C, KeyboardCommandButton.SPACEBAR, '.']
+  ];
+
   readonly lowercaseLettersTab = this.uppercaseLettersTab.map(row => row.map(letterOrCommand => {
     const isLetter = letterOrCommand.length === 1;
     return isLetter
@@ -37,11 +44,6 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
       : letterOrCommand;
   }));
 
-  readonly numbersTab = [
-    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-    ['-', '/', ':', ';', '(', ')', '€', '&', '@', '"'],
-    [KeyboardCommandButton.SPECIAL_CHARS, '.', ',', '?', '!', "'"]
-  ];
   shiftedLettersTab;
 
   selectedTab = this.lowercaseLettersTab;
@@ -55,6 +57,15 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
       this.selectedTab = this.lowercaseLettersTab;
     }
   }
+
+  constructor(
+    private keyboardService: AngularKeyboardService
+  ) { }
+
+  ngAfterViewInit() {
+    this.viewInitialized.emit();
+  }
+
   get shiftPressed() {
     return this._shiftPressed;
   }

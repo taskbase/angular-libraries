@@ -1,4 +1,4 @@
-<div class="wrapper" (click)="onClickWrapper($event)">
+<div class="wrapper">
   <div *ngFor="let row of selectedTab"
        class="keyboard-row">
     <div *ngFor="let btn of row">
@@ -9,13 +9,24 @@
                           [btn]="btn">
           </tb-icon-button>
         </ng-container>
-        <ng-container *ngSwitchCase="keyboardCommandButton.BACKSPACE">
-          <tb-icon-button (buttonClick)="onKeyboardButtonClick($event)"
+        <ng-container *ngSwitchCase="keyboardCommandButton.A_B_C">
+          <tb-icon-button (buttonClick)="selectedTab = lowercaseLettersTab"
                           [btn]="btn">
           </tb-icon-button>
         </ng-container>
         <ng-container *ngSwitchCase="keyboardCommandButton.ONE_TWO_THREE">
-          <tb-icon-button [btn]="btn">
+          <tb-icon-button (buttonClick)="selectedTab = numbersTab"
+                          [btn]="btn">
+          </tb-icon-button>
+        </ng-container>
+        <ng-container *ngSwitchCase="keyboardCommandButton.SPECIAL_CHARS">
+          <tb-icon-button (buttonClick)="selectedTab = specialCharsTab"
+                          [btn]="btn">
+          </tb-icon-button>
+        </ng-container>
+        <ng-container *ngSwitchCase="keyboardCommandButton.BACKSPACE">
+          <tb-icon-button (buttonClick)="onKeyboardButtonClick($event)"
+                          [btn]="btn">
           </tb-icon-button>
         </ng-container>
         <ng-container *ngSwitchCase="keyboardCommandButton.SPACEBAR">

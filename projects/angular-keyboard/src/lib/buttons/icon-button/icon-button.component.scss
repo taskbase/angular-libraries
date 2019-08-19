@@ -9,6 +9,8 @@
   }
 }
 
-.icon-button-123 {
-  font-size: 13px;
+.icon-button {
+  &-123, &-ABC, &-SPECIAL_CHARS {
+    font-size: 13px;
+  }
 }
