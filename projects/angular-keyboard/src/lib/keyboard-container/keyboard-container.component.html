@@ -1,7 +1,9 @@
-<div class="page-content"
+<div class="page-content-wrapper"
      [ngClass]="{'keyboard-open': inputFocused}"
      (click)="onClickOnPage($event)">
-  <ng-content></ng-content>
+  <div class="page-content">
+    <ng-content></ng-content>
+  </div>
 </div>
 <tb-keyboard class="keyboard"
              id="keyboard"
