@@ -1,6 +1,5 @@
 <button class="keyboard-button-base icon-button"
-        [ngClass]="{'activated': activated}"
+        [ngClass]="ngClass"
+        [innerHTML]="buttonDisplay"
         (click)="buttonClick.emit(btn)">
-  <span [innerHTML]="buttonDisplay"
-        [ngClass]="'icon-button-' + btn"></span>
 </button>
