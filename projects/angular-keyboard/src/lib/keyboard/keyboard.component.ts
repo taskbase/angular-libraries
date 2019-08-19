@@ -6,7 +6,10 @@ import {AngularKeyboardService} from '../angular-keyboard.service';
 @Component({
   selector: 'tb-keyboard',
   templateUrl: './keyboard.component.html',
-  styleUrls: ['./keyboard.component.scss']
+  styleUrls: [
+    '../buttons/keyboard-button.base.scss',
+    './keyboard.component.scss'
+  ]
 })
 export class KeyboardComponent implements OnInit, AfterViewInit {
 

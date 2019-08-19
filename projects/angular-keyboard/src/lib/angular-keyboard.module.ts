@@ -3,8 +3,6 @@ import {KeyboardContainerComponent} from './keyboard-container/keyboard-containe
 import {KeyboardComponent} from './keyboard/keyboard.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {SingleCharButtonComponent} from './buttons/single-char-button/single-char-button.component';
-import {SpacebarButtonComponent} from './buttons/spacebar-button/spacebar-button.component';
 import {IconButtonComponent} from './buttons/icon-button/icon-button.component';
 import {FakeInputComponent} from './fake-input/fake-input.component';
 import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
@@ -26,9 +24,7 @@ export interface AngularKeyboardModuleConfig {
   declarations: [
     KeyboardContainerComponent,
     KeyboardComponent,
-    SingleCharButtonComponent,
     IconButtonComponent,
-    SpacebarButtonComponent,
 
     // Input Stuff
     FakeInputComponent,
