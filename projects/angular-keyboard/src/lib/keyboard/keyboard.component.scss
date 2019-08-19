@@ -1,22 +1,36 @@
-@import '../keyboard.variables';
-@import '../buttons/keyboard-button.vars';
+$button-width: 25px;
+$button-height: 35px;
+$button-margin-left-right: 2px;
+
+$button-background-regular: #FFFFFF;
+$button-background-icon: #B1B1B1;
+
+@function multiCellButtonWidth($num-cells) {
+  @return $num-cells * $button-width + (2 * $num-cells - 2) * $button-margin-left-right;
+}
+
+$keyboard-background: #D1D4DB;
+$keyboard-max-width: 500px;
+
 
 :host {
-  display: flex;
+  display: block;
   background: $keyboard-background;
-  justify-content: center;
-  .keyboard-row {
-    display: flex;
-    width: $keyboard-content-width;
-    .keyboard-btn {
-      flex-grow: 1;
+  .wrapper {
+    width: 100%;
+    max-width: $keyboard-max-width;
+    margin: 0 auto;
+    .keyboard-row {
+      display: flex;
+      width: 100%;
+      max-width: $keyboard-max-width;
     }
   }
   touch-action: manipulation; // no zoom on double tap on iOS
 }
 
 .single-char-button {
-  width: $button-width;
+  flex-basis: $button-width;
   font-size: 20px;
   background: $button-background-regular;
 }
@@ -25,3 +39,44 @@
   width: multiCellButtonWidth(7);
   background: $button-background-regular;
 }
+
+.keyboard-button-base {
+  flex-grow: 1;
+
+  height: $button-height;
+
+  margin-left: $button-margin-left-right;
+  margin-right: $button-margin-left-right;
+  margin-bottom: 5px;
+  margin-top: 5px;
+
+  padding: 0;
+  border: none;
+  box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+
+  font-family: Verdana, Geneva, sans-serif;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.icon-button {
+  flex-basis: 50px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  background: $button-background-icon;
+  font-size: 20px;
+  &.activated {
+    background: $button-background-regular;
+  }
+  &.small-font-icon-button {
+    font-size: 13px;
+  }
+}
+
+

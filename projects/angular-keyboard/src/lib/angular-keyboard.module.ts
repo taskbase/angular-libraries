@@ -3,7 +3,6 @@ import {KeyboardContainerComponent} from './keyboard-container/keyboard-containe
 import {KeyboardComponent} from './keyboard/keyboard.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {IconButtonComponent} from './buttons/icon-button/icon-button.component';
 import {FakeInputComponent} from './fake-input/fake-input.component';
 import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
 import {KEYBOARD_CONFIG} from './constants';
@@ -24,7 +23,6 @@ export interface AngularKeyboardModuleConfig {
   declarations: [
     KeyboardContainerComponent,
     KeyboardComponent,
-    IconButtonComponent,
 
     // Input Stuff
     FakeInputComponent,

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import {KeyboardCommandButton} from '../keyboard-commands';
 import {AngularKeyboardService} from '../angular-keyboard.service';
@@ -7,15 +7,14 @@ import {AngularKeyboardService} from '../angular-keyboard.service';
   selector: 'tb-keyboard',
   templateUrl: './keyboard.component.html',
   styleUrls: [
-    '../buttons/keyboard-button.base.scss',
     './keyboard.component.scss'
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KeyboardComponent implements OnInit, AfterViewInit {
 
   @Output() pressedKey = new EventEmitter();
   @Output() viewInitialized = new EventEmitter();
-
 
   readonly keyboardCommandButton = KeyboardCommandButton;
 
