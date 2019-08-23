@@ -39,6 +39,7 @@ interface Cursor {
 export class FakeInputComponent implements OnInit, OnDestroy {
 
   @Input() suggestionMode = false;
+  @Input () initialText = '';
 
   @Output() text = new EventEmitter();
 
@@ -85,7 +86,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.registerInputField();
-    this.chars = 'Ich danke also bin ich. Ich hape es gessehen. Ich weiss dass ich nichts weiss.'
+    this.chars = this.initialText
       .split('').map(char => {
         return {
           char
