@@ -3,7 +3,7 @@
 ## Installation
 
 1. npm install `@taskbase/angular-keyboard`
-2. Add `import {AngularKeyboard} from '@taskbase/angular-keyboard'` to your AppModule
+2. Add `import {AngularKeyboardModule} from '@taskbase/angular-keyboard'` to your AppModule
 3. Configure the angular-keyboard in the module imports, something like this:
 ```
     AngularKeyboardModule.forRoot({
@@ -31,6 +31,9 @@
     }),
 ```
 4. Wrap the whole app content in `app.component.html` with `<tb-keyboard-container>...</tb-keyboard-container>`
+
+5. Add `<tb-input (text)="onTextChange($event)">
+    </tb-input>`
 
 Note: If you only need the feature on some specific pages, you can also only load it there. Just make sure that the whole page content is wrapped.
 

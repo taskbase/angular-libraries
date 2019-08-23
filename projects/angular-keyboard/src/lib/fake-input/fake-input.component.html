@@ -3,10 +3,10 @@
      #wrapper
      (click)="onClickInputField($event)">
   <ng-container *ngFor="let char of chars; let idx = index">
-    <app-fake-char #fakechar
+    <tb-fake-char #fakechar
                    (clickLeft)="onClickCharLeft(char, idx)"
                    (clickRight)="onClickCharRight(char, idx)"
                    [char]="char"
-                   [cursor]="getCursor(idx)"></app-fake-char>
+                   [cursor]="getCursor(idx)"></tb-fake-char>
   </ng-container>
 </div>

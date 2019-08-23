@@ -32,7 +32,7 @@ interface Cursor {
 }
 
 @Component({
-  selector: 'app-fake-input',
+  selector: 'tb-input',
   templateUrl: './fake-input.component.html',
   styleUrls: ['./fake-input.component.scss']
 })
