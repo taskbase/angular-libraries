@@ -1,5 +1,33 @@
 # AngularKeyboard
 
+## Installation
+
+1. npm install @taskbase/angular-keyboard
+2. `import {AngularKeyboard} from '@taskbase/angular-keyboard'` and add to imports of your main AppModule.
+3. Wrap the whole app content in `app.component.html` with `<tb-keyboard-container>...</tb-keyboard-container>`
+
+
+## Demo
+https://angular-keyboard-demo.firebaseapp.com/
+
+## 
+
+## Issues
+It's not an easy task to build this lib, so there are some pending issues we're well aware of. Here's a list.
+
+### Major Issues
+- Ranges... => disabled :(
+- handle multi-key commands
+- newline / enter behaves weirdly
+
+### Minor Issues
+- On the word "Yo" in some fonts, the o is below the Y. The border right/left of the cursor then changes this by drawing a hard line between the two, causing a slight jumping behaviour of the text...
+- improve left / right arrow keys
+
+
+
+========================================================================
+
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.3.
 
 ## Code scaffolding
