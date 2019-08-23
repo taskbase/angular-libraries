@@ -39,9 +39,8 @@ Note: If you only need the feature on some specific pages, you can also only loa
 
 
 ## Demo
-https://angular-keyboard-demo.firebaseapp.com/
+https://taskbase-angular-libraries.firebaseapp.com/keyboard
 
-## 
 
 ## Issues
 It's not an easy task to build this lib, so there are some pending issues we're well aware of. Here's a list.
@@ -55,9 +54,6 @@ It's not an easy task to build this lib, so there are some pending issues we're 
 - On the word "Yo" in some fonts, the o is below the Y. The border right/left of the cursor then changes this by drawing a hard line between the two, causing a slight jumping behaviour of the text...
 - improve left / right arrow keys
 
-
-
-========================================================================
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.3.
 
