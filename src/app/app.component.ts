@@ -1,5 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
-import {AngularKeyboardService} from '../../projects/angular-keyboard/src/lib/angular-keyboard.service';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,15 +7,5 @@ import {AngularKeyboardService} from '../../projects/angular-keyboard/src/lib/an
 })
 export class AppComponent {
 
-  input$ = this.keyboardService.input$;
-
-  constructor(
-    private keyboardService: AngularKeyboardService
-  ) {
-  }
-
-  onTextChange(text: string) {
-    console.log(text);
-  }
 
 }
