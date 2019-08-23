@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-keyboard-project": {
+    "angular-libraries-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-keyboard-project",
+            "outputPath": "dist/angular-libraries-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-keyboard-project:build"
+            "browserTarget": "angular-libraries-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-keyboard-project:build:production"
+              "browserTarget": "angular-libraries-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-keyboard-project:build"
+            "browserTarget": "angular-libraries-demo:build"
           }
         },
         "test": {
@@ -110,11 +110,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-keyboard-project:serve"
+            "devServerTarget": "angular-libraries-demo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-keyboard-project:serve:production"
+              "devServerTarget": "angular-libraries-demo:serve:production"
             }
           }
         }
@@ -155,5 +155,5 @@
         }
       }
     }},
-  "defaultProject": "angular-keyboard-project"
+  "defaultProject": "angular-libraries-demo"
 }

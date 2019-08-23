@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/angular-keyboard-project",
+    "public": "dist/angular-libraries-demo",
     "ignore": [
       "firebase.json",
       "**/.*",
