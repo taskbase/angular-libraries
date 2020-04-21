@@ -40,11 +40,4 @@ export class KeyboardContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  onKeyboardViewInit() {
-
-    if (this.inputFocused != null) {
-      this.inputFocused.scrollIntoView();
-    }
-  }
-
 }

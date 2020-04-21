@@ -11,10 +11,9 @@ import {AngularKeyboardService} from '../angular-keyboard.service';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class KeyboardComponent implements OnInit, AfterViewInit {
+export class KeyboardComponent implements OnInit {
 
   @Output() pressedKey = new EventEmitter();
-  @Output() viewInitialized = new EventEmitter();
 
   readonly keyboardCommandButton = KeyboardCommandButton;
 
@@ -63,10 +62,6 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
   constructor(
     private keyboardService: AngularKeyboardService
   ) { }
-
-  ngAfterViewInit() {
-    this.viewInitialized.emit();
-  }
 
   get shiftPressed() {
     return this._shiftPressed;
