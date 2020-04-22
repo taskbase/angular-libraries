@@ -64,7 +64,7 @@ Run `ng generate component component-name --project angular-keyboard` to generat
 
 ## Build
 
-Run `ng build angular-keyboard` to build the project. The build artifacts will be stored in the `dist/` directory.
+Update the package version in the `package.json` in this folder. Run `ng build angular-keyboard` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Publishing
 
