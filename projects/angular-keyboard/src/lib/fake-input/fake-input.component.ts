@@ -39,7 +39,7 @@ interface Cursor {
 export class FakeInputComponent implements OnInit, OnDestroy {
 
   @Input() suggestionMode = false;
-  @Input () initialText = '';
+  @Input() initialText = '';
 
   @Output() text = new EventEmitter();
 
@@ -467,16 +467,18 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   onClickInputField(e) {
     this.focusInput();
     const closest = this.findClosestHorizontalChar(e);
-    if (closest.isLeft) {
-      this.cursor = {
-        index: closest.idx,
-        side: Side.LEFT
-      };
-    } else {
-      this.cursor = {
-        index: closest.idx,
-        side: Side.RIGHT
-      };
+    if (closest != null) {
+      if (closest.isLeft) {
+        this.cursor = {
+          index: closest.idx,
+          side: Side.LEFT
+        };
+      } else {
+        this.cursor = {
+          index: closest.idx,
+          side: Side.RIGHT
+        };
+      }
     }
   }
 
