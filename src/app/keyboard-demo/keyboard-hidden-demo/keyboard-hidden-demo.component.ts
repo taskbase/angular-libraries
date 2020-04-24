@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {AngularKeyboardService} from '@taskbase/angular-keyboard';
 
 @Component({
-  selector: 'app-keyboard-demo',
-  templateUrl: './keyboard-demo.component.html'
+  selector: 'app-keyboard-hidden-demo',
+  templateUrl: './keyboard-hidden-demo.component.html'
 })
-export class KeyboardDemoComponent {
+export class KeyboardHiddenDemoComponent {
 
   input$ = this.keyboardService.input$;
 
@@ -17,5 +17,4 @@ export class KeyboardDemoComponent {
   onTextChange(text: string) {
     console.log(text);
   }
-
 }
