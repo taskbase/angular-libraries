@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { KeyboardDemoRoutingModule } from './keyboard-demo-routing.module';
-import { KeyboardDemoComponent } from './keyboard-demo/keyboard-demo.component';
-import {AngularKeyboardModule} from '../../../projects/angular-keyboard/src/lib/angular-keyboard.module';
+import {KeyboardDemoRoutingModule} from './keyboard-demo-routing.module';
+import {KeyboardDemoComponent} from './keyboard-demo/keyboard-demo.component';
 import {NavModule} from '../nav/nav.module';
-
+import {AngularKeyboardModule} from '@taskbase/angular-keyboard';
 
 @NgModule({
   declarations: [KeyboardDemoComponent],
@@ -35,7 +34,8 @@ import {NavModule} from '../nav/nav.module';
           'text-decoration': 'line-through'
         }
       }
-    }),
+    })
   ]
 })
-export class KeyboardDemoModule { }
+export class KeyboardDemoModule {
+}

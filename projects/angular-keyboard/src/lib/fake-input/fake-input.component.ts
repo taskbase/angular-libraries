@@ -34,7 +34,7 @@ interface Cursor {
 @Component({
   selector: 'tb-input',
   templateUrl: './fake-input.component.html',
-  styleUrls: ['./fake-input.component.scss']
+  styleUrls: ['./fake-input.component.scss', './cursor.scss']
 })
 export class FakeInputComponent implements OnInit, OnDestroy {
 
@@ -46,6 +46,8 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   @ViewChild('text', {static: true}) textElement: ElementRef;
   @ViewChild('wrapper', {static: true}) wrapper: ElementRef;
   @ViewChildren('fakechar', {read: ElementRef}) charElements: QueryList<ElementRef>;
+
+  isFocused = false;
 
   chars: Char[] = [];
 
@@ -99,6 +101,9 @@ export class FakeInputComponent implements OnInit, OnDestroy {
       this.angularKeyboardService.inputFocused$.subscribe(next => {
         if (next !== this.wrapper.nativeElement) {
           this.cursor = null;
+          this.isFocused = false;
+        } else {
+          this.isFocused = true;
         }
       })
     );
@@ -466,19 +471,26 @@ export class FakeInputComponent implements OnInit, OnDestroy {
 
   onClickInputField(e) {
     this.focusInput();
-    const closest = this.findClosestHorizontalChar(e);
-    if (closest != null) {
-      if (closest.isLeft) {
-        this.cursor = {
-          index: closest.idx,
-          side: Side.LEFT
-        };
-      } else {
-        this.cursor = {
-          index: closest.idx,
-          side: Side.RIGHT
-        };
+    if (this.chars.length > 0) {
+      const closest = this.findClosestHorizontalChar(e);
+      if (closest != null) {
+        if (closest.isLeft) {
+          this.cursor = {
+            index: closest.idx,
+            side: Side.LEFT
+          };
+        } else {
+          this.cursor = {
+            index: closest.idx,
+            side: Side.RIGHT
+          };
+        }
       }
+    } else {
+      this.cursor = {
+        index: 0,
+        side: Side.LEFT
+      };
     }
   }
 
