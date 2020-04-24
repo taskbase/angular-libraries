@@ -1,0 +1,15 @@
+<tb-keyboard-container [keyboardHidden]="true">
+  <app-nav></app-nav>
+  
+  <h1>Keyboard Hidden Demo</h1>
+  <div style="width: 400px; max-width: 100%; margin: 0 auto;">
+    <tb-input [suggestionMode]="true"
+              [initialText]="'Das ist ein Text mit Felern. Korigiere die Fehler!'"
+              (text)="onTextChange($event)">
+    </tb-input>
+  </div>
+  
+  <p>
+    You pressed <code>{{(input$ | async) || 'nothing yet'}}</code>.
+  </p>
+</tb-keyboard-container>

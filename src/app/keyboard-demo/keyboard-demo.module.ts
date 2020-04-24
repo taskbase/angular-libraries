@@ -5,9 +5,10 @@ import {KeyboardDemoRoutingModule} from './keyboard-demo-routing.module';
 import {KeyboardDemoComponent} from './keyboard-demo/keyboard-demo.component';
 import {NavModule} from '../nav/nav.module';
 import {AngularKeyboardModule} from '@taskbase/angular-keyboard';
+import {KeyboardHiddenDemoComponent} from './keyboard-hidden-demo/keyboard-hidden-demo.component';
 
 @NgModule({
-  declarations: [KeyboardDemoComponent],
+  declarations: [KeyboardDemoComponent, KeyboardHiddenDemoComponent],
   imports: [
     CommonModule,
     KeyboardDemoRoutingModule,

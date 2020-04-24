@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AngularKeyboardService} from '../angular-keyboard.service';
 import {isAncestor} from '../dom-utils';
 import {Subscription} from 'rxjs';
@@ -9,6 +9,8 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./keyboard-container.component.scss']
 })
 export class KeyboardContainerComponent implements OnInit, OnDestroy {
+
+  @Input() keyboardHidden = false;
 
   inputFocused: HTMLElement | null;
 
