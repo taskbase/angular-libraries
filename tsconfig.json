@@ -19,11 +19,8 @@
       "dom"
     ],
     "paths": {
-      "angular-keyboard": [
+      "@taskbase/angular-keyboard": [
         "dist/angular-keyboard"
-      ],
-      "angular-keyboard/*": [
-        "dist/angular-keyboard/*"
       ]
     }
   },

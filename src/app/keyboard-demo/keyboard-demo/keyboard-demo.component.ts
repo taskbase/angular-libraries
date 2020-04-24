@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AngularKeyboardService} from '../../../../projects/angular-keyboard/src/lib/angular-keyboard.service';
+import {AngularKeyboardService} from '@taskbase/angular-keyboard';
 
 @Component({
   selector: 'app-keyboard-demo',

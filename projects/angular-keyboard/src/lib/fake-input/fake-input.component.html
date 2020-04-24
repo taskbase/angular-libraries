@@ -2,11 +2,18 @@
      [ngStyle]="config.styles?.inputField"
      #wrapper
      (click)="onClickInputField($event)">
-  <ng-container *ngFor="let char of chars; let idx = index">
-    <tb-fake-char #fakechar
+  <ng-container *ngIf="chars.length > 0; else emptyField">
+    <tb-fake-char *ngFor="let char of chars; let idx = index"
+                  #fakechar
                   (clickLeft)="onClickCharLeft(char, idx)"
                   (clickRight)="onClickCharRight(char, idx)"
                   [char]="char"
-                  [cursor]="getCursor(idx)"></tb-fake-char>
+                  [cursor]="getCursor(idx)">
+    </tb-fake-char>
   </ng-container>
+  <ng-template #emptyField>
+    <span *ngIf="isFocused"
+          class="cursor-left">
+    </span>
+  </ng-template>
 </div>
