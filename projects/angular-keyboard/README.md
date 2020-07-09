@@ -64,9 +64,7 @@ Run `ng build angular-keyboard --watch` from the repository root, then run `npm 
 
 ## Build and Publish
 
-Update the package version in the `package.json` in this folder. Run `ng build angular-keyboard` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-After building your library, go to the dist folder `cd dist/angular-keyboard` and run `npm publish`.
+Update the package version in the `package.json` in this folder. Then run `npm run build-and-publish-keyboard` in the repository root.
 
 ## Running unit tests
 

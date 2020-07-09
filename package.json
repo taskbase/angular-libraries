@@ -8,8 +8,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "watch-keyboard": "ng build angular-keyboard --watch",
     "build-keyboard": "ng build angular-keyboard",
-    "watch-keyboard": "ng build angular-keyboard --watch"
+    "publish-keyboard": "cd dist/angular-keyboard && npm publish",
+    "build-and-publish-keyboard": "npm run build-keyboard && npm run publish-keyboard"
   },
   "private": true,
   "dependencies": {
