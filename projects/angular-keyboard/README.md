@@ -57,23 +57,17 @@ It's not an easy task to build this lib, so there are some pending issues we're 
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.3.
 
-## Code scaffolding
 
-Run `ng generate component component-name --project angular-keyboard` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project angular-keyboard`.
-> Note: Don't forget to add `--project angular-keyboard` or else it will be added to the default project in your `angular.json` file. 
+## Development
 
-## Build
+Run `ng build angular-keyboard --watch` from the repository root, then run `npm start`. That way you can test the behaviour of your library easily.
+
+## Build and Publish
 
 Update the package version in the `package.json` in this folder. Run `ng build angular-keyboard` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Publishing
-
-After building your library with `ng build angular-keyboard`, go to the dist folder `cd dist/angular-keyboard` and run `npm publish`.
+After building your library, go to the dist folder `cd dist/angular-keyboard` and run `npm publish`.
 
 ## Running unit tests
 
 Run `ng test angular-keyboard` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

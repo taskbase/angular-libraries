@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-keyboard": "ng build angular-keyboard",
+    "watch-keyboard": "ng build angular-keyboard --watch"
   },
   "private": true,
   "dependencies": {

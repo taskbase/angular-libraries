@@ -147,8 +147,8 @@ export class FakeInputComponent implements OnInit, OnDestroy {
       if (action instanceof Function) {
         action();
       } else {
-        const isChar = next.length === 1; // could also be unhandlet command like shift, so we need to check here.
-        if (next.length === 1) {
+        const isChar = next.length === 1; // could also be unhandled command like shift, so we need to check here.
+        if (isChar) {
           this.insertChar(next);
         }
       }
@@ -185,27 +185,26 @@ export class FakeInputComponent implements OnInit, OnDestroy {
       newChar,
       ...this.chars.slice(this.cursorPos, this.chars.length)
     ];
-    this.cursor = {
-      index: this.cursorPos,
-      side: Side.RIGHT
-    };
 
-    this.cleanSuggestions();
+    this.cleanSuggestionsAndMoveCursor();
   }
 
-  cleanSuggestions() {
+  cleanSuggestionsAndMoveCursor() {
+    let moveCursor = true;
     if (this.suggestionMode) {
       const updatedChars = [];
       // tslint:disable-next-line
       for (let i = 0; i < this.chars.length; i++) {
         const char = this.chars[i];
         const nextChar = this.chars[i + 1];
+        const previousChar = this.chars[i - 1];
         if (
           char.charState === CharState.ADDED &&
           nextChar != null && nextChar.charState === CharState.REMOVED &&
           char.char === nextChar.char
         ) {
-          // this and the next char should be removed.
+
+          // ADDED + REMOVED == normal char
           updatedChars.push({
             ...char,
             charState: null
@@ -213,11 +212,34 @@ export class FakeInputComponent implements OnInit, OnDestroy {
 
           // Skip the next index.
           i = i + 1;
+        } else if (
+          char.charState === CharState.ADDED &&
+          previousChar != null && previousChar.charState === CharState.REMOVED &&
+          char.char === previousChar.char
+        ) {
+
+          // remove the "REMOVED" char
+          updatedChars.pop();
+
+          // REMOVED + ADDED == normal char
+          updatedChars.push({
+            ...char,
+            charState: null
+          });
+
+          moveCursor = false;
+
         } else {
           updatedChars.push(char);
         }
       }
       this.chars = updatedChars;
+    }
+    if (moveCursor === true) {
+      this.cursor = {
+        index: this.cursorPos,
+        side: Side.RIGHT
+      };
     }
   }
 
