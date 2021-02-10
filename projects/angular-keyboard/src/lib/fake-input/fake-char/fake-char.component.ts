@@ -7,7 +7,7 @@ import {AngularKeyboardModuleConfig} from '../../angular-keyboard.module';
 @Component({
   selector: 'tb-fake-char',
   templateUrl: './fake-char.component.html',
-  styleUrls: ['../cursor.scss'],
+  styleUrls: ['../cursor.scss', './fake-char.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FakeCharComponent implements OnInit {
