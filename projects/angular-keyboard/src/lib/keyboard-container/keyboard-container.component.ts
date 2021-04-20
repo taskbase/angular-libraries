@@ -33,7 +33,16 @@ export class KeyboardContainerComponent implements OnInit, OnDestroy {
 
   onClickOnPage(e) {
     const isFakeInput = this.angularKeyboardService.inputFields
-      .map(fakeInputElt => isAncestor(e.target, fakeInputElt.nativeElement))
+      .map(fakeInputElt => {
+        try {
+          // Check if the fake input element is an ancestor of the clicked element
+          return isAncestor(e.target, fakeInputElt.nativeElement);
+        } catch {
+          // It is possible that the clicked element is already not present anymore in the DOM, then isAncestor throws an error.
+          // In this case assume a click outside to close the keyboard
+          return false;
+        }
+      })
       .reduce((a, b) => a || b, false);
     if (isFakeInput) {
       // don't blur
