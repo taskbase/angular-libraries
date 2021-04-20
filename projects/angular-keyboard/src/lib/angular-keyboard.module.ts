@@ -34,7 +34,7 @@ export interface AngularKeyboardModuleConfig {
   ]
 })
 export class AngularKeyboardModule {
-  static forRoot(config: AngularKeyboardModuleConfig): ModuleWithProviders {
+  static forRoot(config: AngularKeyboardModuleConfig): ModuleWithProviders<AngularKeyboardModule> {
     return {
       ngModule: AngularKeyboardModule,
       providers: [
