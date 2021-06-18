@@ -141,7 +141,8 @@ export class FakeInputComponent implements OnInit, OnDestroy {
         [KeyboardCommandButton.ARROW_UP]: () => this.moveCursorUp(),
         [KeyboardCommandButton.ARROW_DOWN]: () => this.moveCursorDown(),
         [KeyboardCommandButton.ESCAPE]: () => this.angularKeyboardService.inputFocused$.next(null),
-        [KeyboardCommandButton.ENTER]: () => this.insertChar('\n')
+        [KeyboardCommandButton.ENTER]: () => this.insertChar('\n'),
+        [KeyboardCommandButton.DELETE]: () => this.deleteRight()
       };
       const action = handledEvents[next];
       if (action instanceof Function) {
@@ -153,6 +154,15 @@ export class FakeInputComponent implements OnInit, OnDestroy {
         }
       }
       this.text.emit(this.getText());
+    }
+  }
+
+  deleteRight() {
+    this.moveCursorRight();
+    this.deleteCharLeftAndAdjustCursor();
+
+    if (this.suggestionMode === true) {
+      this.moveCursorRight();
     }
   }
 
