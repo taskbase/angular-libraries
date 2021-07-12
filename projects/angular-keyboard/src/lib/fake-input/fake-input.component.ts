@@ -95,7 +95,6 @@ export class FakeInputComponent implements OnInit, OnDestroy {
       .normalize("NFC")
       .split('')
       .map(char => {
-        console.log(char)
         return {
           char
         };
