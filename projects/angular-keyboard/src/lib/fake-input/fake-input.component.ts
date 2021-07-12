@@ -89,7 +89,13 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.registerInputField();
     this.chars = this.initialText
-      .split('').map(char => {
+      // We want the text to use canonical composition of special symbols like
+      // german umlaute and avoid treating the combining diaeresis character
+      // separately.
+      .normalize("NFC")
+      .split('')
+      .map(char => {
+        console.log(char)
         return {
           char
         };
