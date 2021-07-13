@@ -92,7 +92,7 @@ export class FakeInputComponent implements OnInit, OnDestroy {
       // We want the text to use canonical composition of special symbols like
       // german umlaute and avoid treating the combining diaeresis character
       // separately.
-      .normalize("NFC")
+      .normalize("NFKC")
       .split('')
       .map(char => {
         return {
