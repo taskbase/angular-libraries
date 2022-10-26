@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit,
 import {CharCursor} from './char-cursor';
 import {Char, CharState} from '../char';
 import {KEYBOARD_CONFIG} from '../../constants';
-import {AngularKeyboardModuleConfig} from '../../angular-keyboard.module';
+import { AngularKeyboardModuleConfig } from "../../model";
 
 @Component({
   selector: 'tb-fake-char',

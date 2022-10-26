@@ -18,7 +18,7 @@ import {AngularKeyboardService} from '../angular-keyboard.service';
 import {Subscription} from 'rxjs';
 import {KeyboardCommandButton} from '../keyboard-commands';
 import {Char, CharState} from './char';
-import {AngularKeyboardModuleConfig} from '../angular-keyboard.module';
+import { AngularKeyboardModuleConfig } from "../model";
 import {KEYBOARD_CONFIG} from '../constants';
 
 enum Side {
