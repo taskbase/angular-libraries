@@ -6,14 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {FakeInputComponent} from './fake-input/fake-input.component';
 import {FakeCharComponent} from './fake-input/fake-char/fake-char.component';
 import {KEYBOARD_CONFIG} from './constants';
-
-export interface AngularKeyboardModuleConfig {
-  styles?: {
-    inputField?: any;
-    addedChar?: any;
-    removedChar?: any;
-  };
-}
+import { AngularKeyboardModuleConfig } from './model';
 
 @NgModule({
   imports: [
