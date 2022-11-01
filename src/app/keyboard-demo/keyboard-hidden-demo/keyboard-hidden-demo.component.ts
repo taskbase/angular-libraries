@@ -15,7 +15,6 @@ export class KeyboardHiddenDemoComponent {
   }
 
   onTextChange(text: string) {
-    // eslint-disable-next-line no-console
-    console.log(text);
+    console.info(text);
   }
 }
