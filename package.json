@@ -6,10 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "eslint --ext .ts . --quiet",
     "e2e": "ng e2e",
-    "watch-keyboard": "ng build angular-keyboard --watch",
-    "build-keyboard": "ng build angular-keyboard --configuration production",
+    "watch-keyboard": "npm run lint && ng build angular-keyboard --watch",
+    "build-keyboard": "npm run lint && ng build angular-keyboard --configuration production",
     "publish-keyboard": "cd dist/angular-keyboard && npm publish",
     "build-and-publish-keyboard": "npm run build-keyboard && npm run publish-keyboard"
   },
@@ -23,7 +23,9 @@
     "@angular/platform-browser": "12.2.16",
     "@angular/platform-browser-dynamic": "12.2.16",
     "@angular/router": "12.2.16",
-    "codelyzer": "^6.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "eslint": "^8.26.0",
     "rxjs": "6.6.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
@@ -46,7 +48,6 @@
     "ng-packagr": "^12.2.7",
     "protractor": "7.0.0",
     "ts-node": "7.0.0",
-    "tslint": "6.1.3",
     "typescript": "4.3.5"
   }
 }
