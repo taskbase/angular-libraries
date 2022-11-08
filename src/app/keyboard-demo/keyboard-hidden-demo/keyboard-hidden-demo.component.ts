@@ -15,6 +15,6 @@ export class KeyboardHiddenDemoComponent {
   }
 
   onTextChange(text: string) {
-    console.log(text);
+    console.info(text);
   }
 }

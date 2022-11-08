@@ -1,0 +1,37 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["*.generated.ts"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    // in addition to the recommended rules, add the following:
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "no-eval": "error",
+    "no-console": ["error", { "allow": ["info", "table", "warn", "error"] }],
+    "curly": "error",
+    "no-bitwise": "error",
+    "no-lone-blocks": "error",
+    "no-lonely-if": "error",
+    "no-return-assign": "error",
+    "max-depth": "error",
+
+    // Downgrade the rules from erros to warning
+    // Those are things that generally aren't nice, but there's too much of them in the code base
+    // to eliminate all at once.
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-this-alias": "warn",
+    "@typescript-eslint/no-var-requires": "warn",
+
+    // We turn warnings off for what we deem to be ok
+    "@typescript-eslint/no-inferrable-types": "off", // type annotations can be useful for the reader
+    "@typescript-eslint/no-empty-function": "off", // there's a lot of empty ngOnInit blocks, and we don't plan to get rid of those
+    "no-empty-function": "off"
+  }
+}

@@ -15,7 +15,7 @@ export class KeyboardDemoComponent {
   }
 
   onTextChange(text: string) {
-    console.log(text);
+    console.info(text);
   }
 
 }

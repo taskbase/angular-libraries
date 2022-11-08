@@ -50,6 +50,11 @@ export class KeyboardComponent implements OnInit {
   selectedTab = this.lowercaseLettersTab;
 
   _shiftPressed: boolean;
+
+  constructor(
+    private keyboardService: AngularKeyboardService
+  ) { }
+
   set shiftPressed(newValue: boolean) {
     this._shiftPressed = newValue;
     if (this.shiftPressed) {
@@ -58,10 +63,6 @@ export class KeyboardComponent implements OnInit {
       this.selectedTab = this.lowercaseLettersTab;
     }
   }
-
-  constructor(
-    private keyboardService: AngularKeyboardService
-  ) { }
 
   get shiftPressed() {
     return this._shiftPressed;

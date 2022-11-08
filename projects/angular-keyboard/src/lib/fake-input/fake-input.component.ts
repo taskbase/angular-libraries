@@ -208,7 +208,6 @@ export class FakeInputComponent implements OnInit, OnDestroy {
     let moveCursor = true;
     if (this.suggestionMode) {
       const updatedChars = [];
-      // tslint:disable-next-line
       for (let i = 0; i < this.chars.length; i++) {
         const char = this.chars[i];
         const nextChar = this.chars[i + 1];
@@ -371,8 +370,6 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   }
 
   getSelectedElementRow(selected: HTMLElement, charRows: HTMLElement[][]): number {
-    // TODO: disable the stoopid for loop rule...
-    // tslint:disable-next-line
     for (let i = 0; i < charRows.length; i++) {
       const charRow = charRows[i];
       if (charRow.find(charElt => charElt === selected) != null) {
@@ -404,25 +401,21 @@ export class FakeInputComponent implements OnInit, OnDestroy {
   moveCursorLeft() {
     if (this.cursor.side === Side.RIGHT) {
       this.cursor.side = Side.LEFT;
-    } else {
-      if (this.cursorPos > 0) {
+    } else if (this.cursorPos > 0) {
         this.cursor.index = this.cursor.index - 1;
       } else {
         // nothing to do
       }
-    }
   }
 
   moveCursorRight() {
     if (this.cursor.side === Side.LEFT) {
       this.cursor.side = Side.RIGHT;
-    } else {
-      if (this.cursorPos < this.charElements.length) {
+    } else if (this.cursorPos < this.charElements.length) {
         this.cursor.index = this.cursor.index + 1;
       } else {
         // nothing to do
       }
-    }
   }
 
   elementRightOfCursor() {
